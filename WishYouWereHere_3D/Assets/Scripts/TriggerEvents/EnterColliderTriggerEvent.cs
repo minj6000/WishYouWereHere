@@ -4,25 +4,27 @@ using UnityEngine.Events;
 namespace WishYouWereHere3D.TriggerEvents
 {
 
-    public class EnterColliderTriggerEvent
+    public class EnterColliderTriggerEvent : MonoBehaviour
     {
         [SerializeField] string _colliderTag = "Player";
 
         public UnityEvent OnBeginTrigger;
         public UnityEvent OnEndTrigger;
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.tag == _colliderTag)
             {
+                Debug.Log("OnTriggerEnter " + _colliderTag);
                 OnBeginTrigger?.Invoke();
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        protected virtual void OnTriggerExit(Collider other)
         {
             if(other.gameObject.tag == _colliderTag)
             {
+                Debug.Log("OnTriggerExit " + _colliderTag);
                 OnEndTrigger?.Invoke();
             }
         }

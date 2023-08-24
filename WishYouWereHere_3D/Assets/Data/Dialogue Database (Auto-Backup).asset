@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 935899b62f48ae5498594680ed17d133, type: 3}
-  m_Name: Dialogue Database
+  m_Name: Dialogue Database (Auto-Backup)
   m_EditorClassIdentifier: 
   version: 
   author: 
@@ -173,11 +173,6 @@ MonoBehaviour:
         \uD758\uB7EC\uB098\uC624\uACE0 \uC788\uB2E4."
       type: 0
       typeString: CustomFieldType_Text
-    - title: Success Description2
-      value: "\uD328\uD2F0 \uC2A4\uBBF8\uC2A4\uC758 Gloria\uAC00 \uD758\uB7EC\uB098\uC624\uACE0
-        \uC788\uB2E4."
-      type: 0
-      typeString: CustomFieldType_Text
   - id: 3
     fields:
     - title: Name
@@ -207,7 +202,7 @@ MonoBehaviour:
   - id: 4
     fields:
     - title: Name
-      value: "EP1_\uC8FC\uBC29_\uC124\uAC70\uC9C0"
+      value: "EP1_\uC8FC\uBC29_\uC124\uAC86\uC774"
       type: 0
       typeString: CustomFieldType_Text
     - title: Pictures
@@ -258,9 +253,10 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Description
-      value: "\uC9D1\uC5D0 \uC788\uB294 \uC138 \uBC29 \uC911\uC5D0 \uAC00\uC7A5 \uC791\uC558\uC9C0\uB9CC,\n\uADF8\uB798\uB3C4
-        \uB098\uB294 \uC774 \uBC29\uC774 \uC81C\uC77C \uC88B\uC558\uB2E4.\n\n\uCC98\uC74C\uC5D0\uB294
-        \uC637\uC7A5\uBC16\uC5D0 \uC5C6\uB358 \uC774\uACF3\uC5D0\uCC28\uADFC\uCC28\uADFC
+      value: "\uC9D1\uC5D0 \uC788\uB294 \uC138 \uBC29 \uC911\uC5D0 \uAC00\uC7A5 \uC791\uC558\uC9C0\uB9CC\n\uADF8\uB798\uB3C4
+        \uB098\uB294 \uC774 \uBC29\uC774 \uC81C\uC77C \uC88B\uC558\uB2E4.\n\uBB34\uC5C7\uBCF4\uB2E4
+        \uC81C\uC77C \uD3EC\uADFC\uD55C \uB290\uB08C\uC774 \uB4E4\uC5B4\uC11C\n\uCC98\uC74C\uC5D0\uB294
+        \uC637\uC7A5\uBC16\uC5D0 \uC5C6\uB358 \uC774\uACF3\uC5D0\n\uCC28\uADFC\uCC28\uADFC
         \uBB3C\uAC74\uC744 \uC0AC\uB2E4\uAC00 \uB193\uC558\uB2E4.\n\uC18C\uC18C\uD558\uC9C0\uB9CC,
         \uB0B4\uAC00 \uC88B\uC544\uD558\uB294 \uAC83\uB4E4\uB85C."
       type: 0
@@ -850,8 +846,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1055.1836
-        y: 674.1953
+        x: 910.40765
+        y: 663.74756
         width: 160
         height: 30
     - id: 11
@@ -1578,11 +1574,66 @@ MonoBehaviour:
       - originConversationID: 1
         originDialogueID: 24
         destinationConversationID: 1
+        destinationDialogueID: 25
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 1224
+        y: 806
+        width: 160
+        height: 30
+    - id: 25
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: 
+      - title: Description
+        value: 
+        type: 0
+        typeString: 
+      - title: Actor
+        value: 3
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: -1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: "\uAE30, \uB9D0 \uC5C6\uC774 \uBC25\uC744 \uBA39\uB294\uB2E4."
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      conversationID: 1
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 1
+        originDialogueID: 25
+        destinationConversationID: 1
         destinationDialogueID: 26
         isConnector: 0
         priority: 2
       - originConversationID: 1
-        originDialogueID: 24
+        originDialogueID: 25
         destinationConversationID: 1
         destinationDialogueID: 27
         isConnector: 0
@@ -1595,7 +1646,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 1224
-        y: 806
+        y: 890
         width: 160
         height: 30
     - id: 26
@@ -1649,8 +1700,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1137.9104
-        y: 906.8358
+        x: 1120
+        y: 974
         width: 160
         height: 30
     - id: 27
@@ -1704,8 +1755,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1345.9105
-        y: 908.3284
+        x: 1328
+        y: 974
         width: 160
         height: 30
     - id: 28
@@ -1747,15 +1798,14 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: "Variable[\"Alert\"] = \"\uC5EC\uC804\uD788 \uC6B0\uC6B8\uD574
-        \uBCF4\uC778\uB2E4. \uBB54\uAC00 \uAC00\uC838\uB2E4 \uC904\uAE4C?\""
+      userScript: 
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1231.9403
-        y: 1023.67163
+        x: 1120
+        y: 1058
         width: 160
         height: 30
     - id: 29
@@ -2197,15 +2247,14 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: "Variable[\"Alert\"] = \"\uC5EC\uC804\uD788 \uC6B0\uC6B8\uD574
-        \uBCF4\uC778\uB2E4. \uBB54\uAC00 \uAC00\uC838\uB2E4 \uC904\uAE4C?\""
+      userScript: 
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 320.78943
-        y: 2068.2104
+        x: 80
+        y: 2234
         width: 160
         height: 30
     - id: 37
@@ -2247,15 +2296,14 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: "Variable[\"Alert\"] = \"\uC5EC\uC804\uD788 \uC6B0\uC6B8\uD574
-        \uBCF4\uC778\uB2E4. \uBB54\uAC00 \uAC00\uC838\uB2E4 \uC904\uAE4C?\""
+      userScript: 
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 544.57886
-        y: 2068.2107
+        x: 301.15787
+        y: 2223.4736
         width: 160
         height: 30
     - id: 38
@@ -2298,15 +2346,14 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: "Variable[\"Alert\"] = \"\uC5EC\uC804\uD788 \uC6B0\uC6B8\uD574
-        \uBCF4\uC778\uB2E4. \uBB54\uAC00 \uAC00\uC838\uB2E4 \uC904\uAE4C?\""
+      userScript: 
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 789.12225
-        y: 1730.5189
+        x: 785.01263
+        y: 1738.8607
         width: 160
         height: 30
     - id: 39
@@ -2365,8 +2412,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 167.16406, y: 0}
-    canvasZoom: 0.6700003
+    canvasScrollPosition: {x: 0, y: 1764.3688}
+    canvasZoom: 0.7600002
   syncInfo:
     syncActors: 0
     syncItems: 0
