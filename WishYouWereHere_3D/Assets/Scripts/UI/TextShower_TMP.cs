@@ -13,6 +13,12 @@ namespace WishYouWereHere3D.UI
         public UnityEvent OnTextShowed;
         public UnityEvent OnTextDisappeared;
 
+        private void Reset()
+        {
+            _textMeshPro = GetComponent<TMP_Text>();
+            _typeWriter = GetComponent<TypewriterCore>();
+        }
+
         private void OnEnable()
         {
             if(_typeWriter != null)

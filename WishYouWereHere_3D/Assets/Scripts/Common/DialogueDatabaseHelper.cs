@@ -6,7 +6,7 @@ namespace WishYouWereHere3D.Common
     public class DialogueDatabaseHelper : MonoBehaviour
     {
         const string LOCATION_PREFIX = "location";
-        const string ITEM_PREFIX = "item";
+        const string ITEMS_PREFIX = "items";
         const string DESCRIPTION_PROPERTY = "description";
 
         public static string Get(string path)
@@ -23,7 +23,7 @@ namespace WishYouWereHere3D.Common
                 {
                     return GetLocationProperty(tokens[1]);
                 }
-                else if (tokens[0].ToLower() == ITEM_PREFIX)
+                else if (tokens[0].ToLower() == ITEMS_PREFIX)
                 {
                     return GetItemProperty(tokens[1]);
                 }
@@ -34,7 +34,7 @@ namespace WishYouWereHere3D.Common
                 {
                     return GetLocationProperty(tokens[1], tokens[2]);
                 }
-                else if (tokens[0].ToLower() == ITEM_PREFIX)
+                else if (tokens[0].ToLower() == ITEMS_PREFIX)
                 {
                     return GetItemProperty(tokens[1], tokens[2]);
                 }

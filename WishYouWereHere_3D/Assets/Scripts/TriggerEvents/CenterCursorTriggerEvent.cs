@@ -10,22 +10,22 @@ namespace WishYouWereHere3D.TriggerEvents
         public UnityEvent OnDown;
         public UnityEvent OnUp;
 
-        void OnCenterCursorEnter()
+        protected virtual void OnCenterCursorEnter()
         {
             OnEnter?.Invoke();
         }
 
-        void OnCenterCursorExit()
+        protected virtual void OnCenterCursorExit()
         {
             OnExit?.Invoke();
         }
 
-        void OnCenterCursorDown()
+        protected virtual void OnCenterCursorDown()
         {
             OnDown?.Invoke();
         }
 
-        void OnCenterCursorUp()
+        protected virtual void OnCenterCursorUp()
         {
             OnUp?.Invoke();
         }

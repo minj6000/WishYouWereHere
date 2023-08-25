@@ -7,17 +7,16 @@ namespace WishYouWereHere3D.Common.CenterCursor
         [SerializeField] private float _maxDistance = 10f;
         GameObject enteredObject;
 
-        // Update is called once per frame
-        void Update()
+        private void FixedUpdate()
         {
             RaycastHit hit;
 
             Debug.DrawRay(transform.position, transform.forward * _maxDistance, Color.red);
             if (Physics.Raycast(transform.position, transform.forward, out hit, _maxDistance))
             {
-                if(enteredObject != hit.collider.gameObject)
+                if (enteredObject != hit.collider.gameObject)
                 {
-                    if(enteredObject != null)
+                    if (enteredObject != null)
                     {
                         enteredObject.SendMessage("OnCenterCursorExit", SendMessageOptions.DontRequireReceiver);
                     }
@@ -28,7 +27,7 @@ namespace WishYouWereHere3D.Common.CenterCursor
             }
             else
             {
-                if(enteredObject != null)
+                if (enteredObject != null)
                 {
                     enteredObject.SendMessage("OnCenterCursorExit", SendMessageOptions.DontRequireReceiver);
                     enteredObject = null;

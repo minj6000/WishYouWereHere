@@ -14,6 +14,14 @@ namespace WishYouWereHere3D.Common
             }
         }
 
+        private void Reset()
+        {
+            if(Camera.main != null)
+            {
+                target = Camera.main.transform;
+            }
+        }
+
         void Update()
         {
             if(target != null)

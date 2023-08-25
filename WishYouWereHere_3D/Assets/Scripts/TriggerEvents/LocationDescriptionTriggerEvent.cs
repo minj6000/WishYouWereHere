@@ -12,16 +12,16 @@ namespace WishYouWereHere3D.TriggerEvents
 
         bool _triggered = false;
 
-        private void OnEnable()
+        protected override void OnTriggerEnter(Collider other)
         {
-            OnBeginTrigger.AddListener(Set);
-            OnEndTrigger.AddListener(Unset);
+            Set();
+            base.OnTriggerEnter(other);
         }
 
-        private void OnDisable()
+        protected override void OnTriggerExit(Collider other)
         {
-            OnBeginTrigger.RemoveListener(Set);
-            OnEndTrigger.RemoveListener(Unset);
+            Unset();
+            base.OnTriggerExit(other);
         }
 
         void Set()
