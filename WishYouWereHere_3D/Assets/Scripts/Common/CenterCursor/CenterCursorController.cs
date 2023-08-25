@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WishYouWereHere3D
+namespace WishYouWereHere3D.Common.CenterCursor
 {
     public class CenterCursorController : MonoBehaviour
     {
