@@ -3,7 +3,7 @@ using WishYouWereHere3D.TriggerEvents;
 
 namespace WishYouWereHere3D.EP1
 {
-    public class RecordPlayer : ItemDescriptionTriggerEvent
+    public class RecordPlayer : ItemDescriptionTrigger
     {
         [SerializeField] string _textClickedPathAfterConversation;
 

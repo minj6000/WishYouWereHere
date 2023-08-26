@@ -37,7 +37,7 @@ namespace WishYouWereHere3D.EP1
             }
 
             //아이템 설명 트리거에서 클릭되지 않았을 경우
-            var itemDescriptionTriggerEvent = _centerCursorController.EnteredObject.GetComponent<ItemDescriptionTriggerEvent>();
+            var itemDescriptionTriggerEvent = _centerCursorController.EnteredObject.GetComponent<ItemDescriptionTrigger>();
             if (itemDescriptionTriggerEvent != null)
             {
                 _mouseInteractionIcon.SetActive(!itemDescriptionTriggerEvent.Clicked);
@@ -49,6 +49,20 @@ namespace WishYouWereHere3D.EP1
             if (sofa != null)
             {
                 _mouseInteractionIcon.SetActive(sofa.Enabled);
+                return;
+            }
+
+            var movableItem = _centerCursorController.EnteredObject.GetComponent<MovableItem>();
+            if (movableItem != null)
+            {
+                _mouseInteractionIcon.SetActive(movableItem.Enabled);
+                return;
+            }
+
+            var movableItemTarget = _centerCursorController.EnteredObject.GetComponent<MovableItemTarget>();
+            if (movableItemTarget != null)
+            {
+                _mouseInteractionIcon.SetActive(movableItemTarget.Enabled);
                 return;
             }
 

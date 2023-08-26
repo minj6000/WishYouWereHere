@@ -5,7 +5,7 @@ namespace WishYouWereHere3D.Common
 {
     public class DialogueDatabaseHelper
     {
-        const string LOCATION_PREFIX = "location";
+        const string LOCATIONS_PREFIX = "locations";
         const string ITEMS_PREFIX = "items";
         const string DESCRIPTION_PROPERTY = "description";
 
@@ -19,7 +19,7 @@ namespace WishYouWereHere3D.Common
             }
             else if(tokens.Length == 2)
             {
-                if (tokens[0].ToLower() == LOCATION_PREFIX)
+                if (tokens[0].ToLower() == LOCATIONS_PREFIX)
                 {
                     return GetLocationProperty(tokens[1]);
                 }
@@ -30,7 +30,7 @@ namespace WishYouWereHere3D.Common
             }
             else if(tokens.Length == 3)
             {
-                if (tokens[0].ToLower() == LOCATION_PREFIX)
+                if (tokens[0].ToLower() == LOCATIONS_PREFIX)
                 {
                     return GetLocationProperty(tokens[1], tokens[2]);
                 }

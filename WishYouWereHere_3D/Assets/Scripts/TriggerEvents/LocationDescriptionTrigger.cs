@@ -6,7 +6,7 @@ using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.TriggerEvents
 {
-    public class LocationDescriptionTriggerEvent : EnterColliderTriggerEvent
+    public class LocationDescriptionTrigger : EnterColliderTriggerEvent
     {
         [SerializeField] string _textPath;
         [SerializeField] TextShower_TMP _textShower;

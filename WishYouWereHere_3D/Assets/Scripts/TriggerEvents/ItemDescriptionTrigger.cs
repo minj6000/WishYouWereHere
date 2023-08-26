@@ -4,7 +4,7 @@ using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.TriggerEvents
 {
-    public class ItemDescriptionTriggerEvent : CenterCursorTriggerEvent
+    public class ItemDescriptionTrigger : CenterCursorTriggerEvent
     {
         [SerializeField] protected string _textEnterPath;
         [SerializeField] protected string _textClickedPath;

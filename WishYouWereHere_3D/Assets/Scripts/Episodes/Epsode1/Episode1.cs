@@ -9,9 +9,10 @@ namespace WishYouWereHere3D.EP1
 {
     public class Episode1 : MonoBehaviour
     {
-        [SerializeField] PlayerController _playerController;
-        [SerializeField] ItemDescriptionTriggerEvent[] itemDescriptionTriggerEvents;
-        [SerializeField] LocationDescriptionTriggerEvent[] locationDescriptionTriggerEvents;
+        [SerializeField] ItemDescriptionTrigger[] itemDescriptionTriggers;
+        [SerializeField] LocationDescriptionTrigger[] locationDescriptionTriggers;
+        [SerializeField] MovableItem[] movableItems;
+        [SerializeField] MovableItemTarget[] movableItemTargets;
 
         [SerializeField] Sofa _sofa;
         [SerializeField] RecordPlayer _recordPlayer;
@@ -21,7 +22,7 @@ namespace WishYouWereHere3D.EP1
             Ready,
             MovableSpace,
             Dialogue,
-            MovableObject,
+            MoveItem,
             End
         }
 
@@ -39,8 +40,8 @@ namespace WishYouWereHere3D.EP1
                     case States.Dialogue:
                         State_Dialogue();
                         break;
-                    case States.MovableObject:
-                        State_MovableObject();
+                    case States.MoveItem:
+                        State_MoveItem();
                         break;
                     case States.End:
                         State_End();
@@ -54,21 +55,26 @@ namespace WishYouWereHere3D.EP1
             
         }
 
-        private void State_MovableObject()
+        private void State_MoveItem()
         {
-            _playerController.Movable(true);
-            _playerController.Rotatable(true);
+            PlayerController.Instance.Movable(true);
+            PlayerController.Instance.Rotatable(true);
 
             _recordPlayer.ChangeClickedPathAfterConversation();
 
             InputHelper.EnableMouseControl(false);
+
+            foreach (var item in movableItems)
+            {
+                item.ClearValues();
+                item.SetHoldable();
+            }
         }
 
-        #region Dialogue
         private void State_Dialogue()
         {
-            _playerController.Movable(false);
-            _playerController.Rotatable(false);
+            PlayerController.Instance.Movable(false);
+            PlayerController.Instance.Rotatable(false);
 
             if(Configuration.Instance.ConversationControllerType == Configuration.ConversationController.Mouse)
             {
@@ -85,16 +91,15 @@ namespace WishYouWereHere3D.EP1
                 .Subscribe(async _ =>
                 {
                     Debug.Log($"OnConversationEnded {_.name}");
-                    await _playerController.StandUp();
-                    State = States.MovableObject;
+                    await PlayerController.Instance.StandUp();
+                    State = States.MoveItem;
                 });
         }
-        #endregion
 
         private void State_MovableSpace()
         {
-            _playerController.Movable(true);
-            _playerController.Rotatable(true);
+            PlayerController.Instance.Movable(true);
+            PlayerController.Instance.Rotatable(true);
 
             _sofa.OnDown.AsObservable()
                 .First()
@@ -102,18 +107,18 @@ namespace WishYouWereHere3D.EP1
                 {
                     _sofa.Enabled = false;
 
-                    foreach (var item in itemDescriptionTriggerEvents)
+                    foreach (var item in itemDescriptionTriggers)
                     {
                         item.ClearValues();
                     }
-                    foreach (var item in locationDescriptionTriggerEvents)
+                    foreach (var item in locationDescriptionTriggers)
                     {
                         item.ClearValues();
                         item.Enabled = false;
                     }
 
                     //소파에 앉는 연출
-                    await _playerController.SitDown(_sofa.SitTransform);
+                    await PlayerController.Instance.SitDown(_sofa.SitTransform);
                     State = States.Dialogue;
                 });
         }
@@ -122,6 +127,12 @@ namespace WishYouWereHere3D.EP1
         {
             InputHelper.EnableMouseControl(false);
             State = States.MovableSpace;
+
+            foreach (var item in movableItems)
+            {
+                item.ClearValues();
+                item.Enabled = false;
+            }
         }
 
         private void Start()
@@ -137,9 +148,10 @@ namespace WishYouWereHere3D.EP1
         [Button]
         void AssignReferences()
         {
-            _playerController = FindObjectOfType<PlayerController>();
-            itemDescriptionTriggerEvents = FindObjectsOfType<ItemDescriptionTriggerEvent>();
-            locationDescriptionTriggerEvents = FindObjectsOfType<LocationDescriptionTriggerEvent>();
+            itemDescriptionTriggers = FindObjectsOfType<ItemDescriptionTrigger>();
+            locationDescriptionTriggers = FindObjectsOfType<LocationDescriptionTrigger>();
+            movableItems = FindObjectsOfType<MovableItem>();
+            movableItemTargets = FindObjectsOfType<MovableItemTarget>();
             
             _sofa = FindObjectOfType<Sofa>();
             _recordPlayer = FindObjectOfType<RecordPlayer>();

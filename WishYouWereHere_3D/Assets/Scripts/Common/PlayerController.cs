@@ -1,16 +1,35 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using WishYouWereHere3D.TriggerEvents;
 
 namespace WishYouWereHere3D
 {
     public class PlayerController : MonoBehaviour
     {
+        static PlayerController _instance = null;
+        public static PlayerController Instance
+        {
+            get
+            {
+                if(_instance == null)
+                {
+                    _instance = FindObjectOfType<PlayerController>();
+                }
+                return _instance;
+            }
+        }
+
         [SerializeField] FirstPersonMovement _firstPersonMovement;
         [SerializeField] FirstPersonLook _firstPersonLook;
         [SerializeField] Rigidbody _rigidbody;
 
+        [SerializeField] Transform _socketTransform;
+        public Transform SocketTransform => _socketTransform;
+
         Vector3 _lookOrgPosition;
+
+        public MovableItem HoldingItem { get; private set; } = null;
 
         private void Awake()
         {
@@ -53,6 +72,40 @@ namespace WishYouWereHere3D
             Rotatable(false);
 
             await _firstPersonLook.transform.DOLocalMoveY(_lookOrgPosition.y, 1f).SetEase(Ease.OutQuart).AsyncWaitForCompletion();
+        }
+
+        private void LateUpdate()
+        {
+            if(HoldingItem != null && HoldingItem.State == MovableItem.States.Holding)
+            {
+                HoldingItem.transform.position = SocketTransform.position;
+                HoldingItem.transform.rotation = SocketTransform.rotation;
+            }
+        }
+
+        public bool CanHoldItem()
+        {
+            if(HoldingItem != null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool HoldItem(MovableItem item)
+        {
+            if(!CanHoldItem())
+            {
+                return false;
+            }
+
+            HoldingItem = item;
+            return true;
+        }
+
+        public void ReleaseItem()
+        {
+            HoldingItem = null;
         }
     }
 }
