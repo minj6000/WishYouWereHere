@@ -6,6 +6,7 @@ using UniRx;
 using UnityEngine;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.TriggerEvents;
+using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.EP1
 {
