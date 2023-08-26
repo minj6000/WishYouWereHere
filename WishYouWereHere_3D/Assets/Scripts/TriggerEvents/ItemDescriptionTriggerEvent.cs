@@ -6,20 +6,21 @@ namespace WishYouWereHere3D.TriggerEvents
 {
     public class ItemDescriptionTriggerEvent : CenterCursorTriggerEvent
     {
-        [SerializeField] string _textEnterPath;
-        [SerializeField] string _textClickedPath;
-        [SerializeField] TextShower_TMP _textShower;
+        [SerializeField] protected string _textEnterPath;
+        [SerializeField] protected string _textClickedPath;
+        [SerializeField] protected TextShower_TMP _textShower;
 
-        float _hideToDistance;
-        bool clicked;
+        protected float _hideToDistance;
+        protected bool clicked;
+        public bool Clicked => clicked;
 
-        private void Start()
+        protected virtual void Start()
         {
             clicked = false;
             _hideToDistance = Configuration.Instance.ItemDescription.HideToDistance;
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (_textShower.AppearingState != TextShower_TMP.AppearingStates.Appeared || _hideToDistance == 0f)
                 return;
@@ -56,15 +57,15 @@ namespace WishYouWereHere3D.TriggerEvents
         protected override void OnCenterCursorDown()
         {
             base.OnCenterCursorDown();
-            
+
+            if (clicked)
+            {
+                return;
+            }
+
             clicked = true;
             _textShower.ShowText(_textClickedPath);
-        }
-        
-        public void ChangeClickedPath(string clickedPath)
-        {
-            _textClickedPath = clickedPath;
-        }
+        }       
 
         public void ClearValues()
         {

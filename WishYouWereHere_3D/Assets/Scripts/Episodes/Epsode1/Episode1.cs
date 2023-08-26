@@ -1,5 +1,6 @@
-using PixelCrushers.DialogueSystem;
+Ôªøusing PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
+using UniRx;
 using UnityEngine;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.TriggerEvents;
@@ -13,6 +14,7 @@ namespace WishYouWereHere3D.EP1
         [SerializeField] LocationDescriptionTriggerEvent[] locationDescriptionTriggerEvents;
 
         [SerializeField] Sofa _sofa;
+        [SerializeField] RecordPlayer _recordPlayer;
 
         public enum States
         {
@@ -57,6 +59,8 @@ namespace WishYouWereHere3D.EP1
             _playerController.Movable(true);
             _playerController.Rotatable(true);
 
+            _recordPlayer.ChangeClickedPathAfterConversation();
+
             InputHelper.EnableMouseControl(false);
         }
 
@@ -73,49 +77,46 @@ namespace WishYouWereHere3D.EP1
 
             DialogueManager.Instance.StartConversation("EP1");
 
-            DialogueManager.Instance.conversationEnded -= OnConversationEnded;
-            DialogueManager.Instance.conversationEnded += OnConversationEnded;
+            Observable.FromEvent<TransformDelegate, Transform>(
+                h => t => h(t),
+                h => DialogueManager.Instance.conversationEnded += h, 
+                h => DialogueManager.Instance.conversationEnded -= h)
+                .First()
+                .Subscribe(async _ =>
+                {
+                    Debug.Log($"OnConversationEnded {_.name}");
+                    await _playerController.StandUp();
+                    State = States.MovableObject;
+                });
         }
-
-        private async void OnConversationEnded(Transform t)
-        {
-            Debug.Log($"OnConversationEnded {t.name}");
-            DialogueManager.Instance.conversationEnded -= OnConversationEnded;
-
-            await _playerController.StandUp();
-            State = States.MovableObject;
-        } 
         #endregion
 
-        #region MovableSpace
         private void State_MovableSpace()
         {
             _playerController.Movable(true);
             _playerController.Rotatable(true);
 
-            _sofa.OnDown.AddListener(OnSofaDown);
+            _sofa.OnDown.AsObservable()
+                .First()
+                .Subscribe(async _ =>
+                {
+                    _sofa.Enabled = false;
+
+                    foreach (var item in itemDescriptionTriggerEvents)
+                    {
+                        item.ClearValues();
+                    }
+                    foreach (var item in locationDescriptionTriggerEvents)
+                    {
+                        item.ClearValues();
+                        item.Enabled = false;
+                    }
+
+                    //ÏÜåÌååÏóê ÏïâÎäî Ïó∞Ï∂ú
+                    await _playerController.SitDown(_sofa.SitTransform);
+                    State = States.Dialogue;
+                });
         }
-
-        private async void OnSofaDown()
-        {
-            _sofa.OnDown.RemoveListener(OnSofaDown);
-            _sofa.Enabled = false;
-
-            foreach (var item in itemDescriptionTriggerEvents)
-            {
-                item.ClearValues();
-            }
-            foreach (var item in locationDescriptionTriggerEvents)
-            {
-                item.ClearValues();
-                item.Enabled = false;
-            }
-
-            //º“∆ƒø° æ…¥¬ ø¨√‚
-            await _playerController.SitDown(_sofa.SitTransform);
-            State = States.Dialogue;
-        } 
-        #endregion
 
         private void Ready()
         {
@@ -139,6 +140,9 @@ namespace WishYouWereHere3D.EP1
             _playerController = FindObjectOfType<PlayerController>();
             itemDescriptionTriggerEvents = FindObjectsOfType<ItemDescriptionTriggerEvent>();
             locationDescriptionTriggerEvents = FindObjectsOfType<LocationDescriptionTriggerEvent>();
+            
+            _sofa = FindObjectOfType<Sofa>();
+            _recordPlayer = FindObjectOfType<RecordPlayer>();
         }
     } 
 }
