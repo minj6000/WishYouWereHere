@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ff5882c38f1b6c4682c7f207f0c98db, type: 3}
-  m_Name: SizeAppearance
+  m_Script: {fileID: 188390376, guid: a4865f1ab4504ed8a368670db22f409c, type: 3}
+  m_Name: ImportSettingsConfig
   m_EditorClassIdentifier: 
-  tagID: size
-  baseDuration: 0.5
-  baseAmplitude: 1.2
+  automateBeforeBuild: 1

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3762133, g: 0.3912886, b: 0.34132653, a: 1}
+  m_IndirectSpecularColor: {r: 0.37627688, g: 0.39140487, b: 0.34139124, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18962,14 +18962,16 @@ MonoBehaviour:
   referenceFontSize: 10
   isResettingTimeOnNewText: 1
   useDefaultDatabases: 1
-  databaseBehaviors: {fileID: 0}
-  databaseAppearances: {fileID: 0}
-  databaseActions: {fileID: 0}
+  databaseBehaviors: {fileID: 11400000, guid: e75b1b83801b72344a49aca85158befd, type: 2}
+  databaseAppearances: {fileID: 11400000, guid: 062c25b8053971a469368f9077e498c3,
+    type: 2}
+  databaseActions: {fileID: 11400000, guid: 4e8f92b80d339e9419bf337d127e447e, type: 2}
   defaultAppearancesTags:
   - size
   defaultDisappearancesTags:
   - fade
-  defaultBehaviorsTags: []
+  defaultBehaviorsTags:
+  - wave
   defaultTagsMode: 0
 --- !u!114 &4652514650546878037
 MonoBehaviour:
