@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using WishYouWereHere3D.Common;
 using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.TriggerEvents
@@ -9,51 +10,66 @@ namespace WishYouWereHere3D.TriggerEvents
         [SerializeField] string _textClickedPath;
         [SerializeField] TextShower_TMP _textShower;
 
-        bool clicked = false;
+        float _hideToDistance;
+        bool clicked;
+
+        private void Start()
+        {
+            clicked = false;
+            _hideToDistance = Configuration.Instance.ItemDescription.HideToDistance;
+        }
+
+        private void Update()
+        {
+            if (_textShower.AppearingState != TextShower_TMP.AppearingStates.Appeared || _hideToDistance == 0f)
+                return;
+
+            //거리가 멀어지면 텍스트를 숨긴다.
+            if (Vector3.Distance(transform.position, Camera.main.transform.position) > _hideToDistance)
+            {
+                ClearValues();
+            }
+        }
 
         protected override void OnCenterCursorEnter()
         {
+            base.OnCenterCursorEnter();
+
             if(clicked)
             {
                 return;
             }
 
             _textShower.ShowText(_textEnterPath);
-            base.OnCenterCursorEnter();
         }
 
         protected override void OnCenterCursorExit()
         {
-            if(clicked)
-            {
-                return;
-            }
-
-            _textShower.HideText();
             base.OnCenterCursorExit();
+
+            if(_hideToDistance == 0f)
+            {
+                ClearValues();
+            }
         }
 
         protected override void OnCenterCursorDown()
         {
-            _textShower.ShowText(_textClickedPath);
-            clicked = true;
             base.OnCenterCursorDown();
+            
+            clicked = true;
+            _textShower.ShowText(_textClickedPath);
         }
         
-        public void SetClickedPath(string clickedPath)
+        public void ChangeClickedPath(string clickedPath)
         {
-            if(clicked)
-            {
-                _textShower.HideText();
-                _textShower.OnTextDisappeared.AddListener(OnClickedPathTextDisappeared);
-            }
             _textClickedPath = clickedPath;
         }
 
-        private void OnClickedPathTextDisappeared()
+        public void ClearValues()
         {
-            _textShower.OnTextDisappeared.RemoveListener(OnClickedPathTextDisappeared);
-            _textShower.ShowText(_textClickedPath);
+            _textShower.HideText();
+            clicked = false;
         }
     }
 }

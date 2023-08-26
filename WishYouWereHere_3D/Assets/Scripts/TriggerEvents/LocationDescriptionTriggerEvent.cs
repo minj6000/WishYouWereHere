@@ -1,4 +1,7 @@
+using System;
+using UniRx;
 using UnityEngine;
+using WishYouWereHere3D.Common;
 using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.TriggerEvents
@@ -7,54 +10,77 @@ namespace WishYouWereHere3D.TriggerEvents
     {
         [SerializeField] string _textPath;
         [SerializeField] TextShower_TMP _textShower;
-        [SerializeField] bool _showOnce = false;
-        [SerializeField] float _delay = 0f;
 
-        bool _triggered = false;
+        bool _showOnce;
+        float _showDuration;
+
+        bool _triggered;
+
+        IDisposable _disposableTextAppeared;
+
+        private void Start()
+        {
+            _showOnce = Configuration.Instance.LocationDescription.ShowOnce;
+            _showDuration = Configuration.Instance.LocationDescription.ShowDuration;
+
+            _triggered = false;
+
+            if (_showDuration > 0f)
+            {
+                _textShower.OnTextAppearing.AsObservable()
+                    .Subscribe(_ => {
+                        _disposableTextAppeared?.Dispose();
+                        _disposableTextAppeared = _textShower.OnTextAppeared.AsObservable()
+                            .Where(_ => _textShower.IsText(_textPath))
+                            .Delay(TimeSpan.FromSeconds(_showDuration))
+                            .Subscribe(_ => UnExecute());
+                    })
+                    .AddTo(gameObject);
+            }
+        }
 
         protected override void OnTriggerEnter(Collider other)
         {
-            Set();
             base.OnTriggerEnter(other);
+            Execute();
         }
 
         protected override void OnTriggerExit(Collider other)
         {
-            Unset();
             base.OnTriggerExit(other);
+            if(_showDuration == 0f)
+            {
+                UnExecute();
+            }
         }
 
-        void Set()
+        void Execute()
         {
             if(_showOnce && _triggered)
             {
                 return;
             }
 
-            _textShower.OnTextShowed.AddListener(OnTextShowed);
             _textShower.ShowText(_textPath);
-
             _triggered = true;
         }
 
-        void OnTextShowed()
+        void UnExecute(bool clearTriggered = false)
         {
-            _textShower.OnTextShowed.RemoveListener(OnTextShowed);
-            if (_delay > 0f)
+            if(_textShower.IsText(_textPath))
             {
-                Invoke("Unset", _delay);
+                _textShower.HideText();
+            }
+
+            if(clearTriggered)
+            {
+                _triggered = false;
             }
         }
 
-        void Unset()
+        public void ClearValues()
         {
-            _textShower.OnTextDisappeared.AddListener(OnTextDisappeared);
-            _textShower.HideText();
-        }
-
-        void OnTextDisappeared()
-        {
-            _textShower.OnTextDisappeared.RemoveListener(OnTextDisappeared);
+            UnExecute(true);
         }
     } 
 }

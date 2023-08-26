@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace WishYouWereHere3D.Common
 {
-    public class DialogueDatabaseHelper : MonoBehaviour
+    public class DialogueDatabaseHelper
     {
         const string LOCATION_PREFIX = "location";
         const string ITEMS_PREFIX = "items";

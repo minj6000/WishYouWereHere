@@ -1,4 +1,7 @@
+using PixelCrushers;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
+using WishYouWereHere3D.Common;
 
 namespace WishYouWereHere3D
 {
@@ -21,8 +24,7 @@ namespace WishYouWereHere3D
 
         private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            InputHelper.EnableMouseControl(false);            
         }
     } 
 }
