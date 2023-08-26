@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Configuration
   m_EditorClassIdentifier: 
   _itemDescription:
-    _hideToDistance: 3
+    _hideToDistance: 5
   _locationDescription:
-    _showOnce: 0
+    _showOnce: 1
     _showDuration: 3
+  _conversationController: 0

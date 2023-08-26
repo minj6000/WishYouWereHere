@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace WishYouWereHere3D.TriggerEvents
 {
 
-    public class EnterColliderTriggerEvent : MonoBehaviour
+    public class EnterColliderTriggerEvent : TriggerEventBase
     {
         [SerializeField] string _colliderTag = "Player";
 

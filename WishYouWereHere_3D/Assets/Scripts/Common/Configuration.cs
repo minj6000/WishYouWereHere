@@ -49,6 +49,16 @@ namespace WishYouWereHere3D.Common
         [SerializeField] LocationDescriptionConfiguration _locationDescription;
         public LocationDescriptionConfiguration LocationDescription => _locationDescription;
 
+        public enum ConversationController
+        {
+            Mouse,
+            Keyboard
+        }
+
+        [Tooltip("대화 컨트롤러를 지정합니다.")]
+        [SerializeField] 
+        ConversationController _conversationController;
+        public ConversationController ConversationControllerType => _conversationController;
 
 
 

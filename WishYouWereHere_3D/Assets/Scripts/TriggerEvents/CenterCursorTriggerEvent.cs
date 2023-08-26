@@ -3,7 +3,8 @@ using UnityEngine.Events;
 
 namespace WishYouWereHere3D.TriggerEvents
 {
-    public class CenterCursorTriggerEvent : MonoBehaviour
+
+    public class CenterCursorTriggerEvent : TriggerEventBase
     {
         public UnityEvent OnEnter;
         public UnityEvent OnExit;
@@ -33,6 +34,5 @@ namespace WishYouWereHere3D.TriggerEvents
             Debug.Log($"{name} OnCenterCursorUp");
             OnUp?.Invoke();
         }
-    }
-    
+    }    
 }

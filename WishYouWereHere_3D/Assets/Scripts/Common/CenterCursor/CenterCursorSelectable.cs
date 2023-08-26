@@ -6,7 +6,6 @@ namespace WishYouWereHere3D.Common.CenterCursor
     public class CenterCursorSelectable : MonoBehaviour
     {
         Outline outline;
-
         // Start is called before the first frame update
         void Start()
         {
@@ -20,6 +19,11 @@ namespace WishYouWereHere3D.Common.CenterCursor
         }
 
         void OnCenterCursorExit()
+        {
+            outline.enabled = false;
+        }
+
+        private void OnDisable()
         {
             outline.enabled = false;
         }

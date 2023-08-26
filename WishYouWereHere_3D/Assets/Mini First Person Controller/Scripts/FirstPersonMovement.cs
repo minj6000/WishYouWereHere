@@ -41,4 +41,9 @@ public class FirstPersonMovement : MonoBehaviour
         // Apply movement.
         rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
     }
+
+    private void OnDisable()
+    {
+        rigidbody.velocity = Vector3.zero;
+    }
 }

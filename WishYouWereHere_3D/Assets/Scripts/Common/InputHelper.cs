@@ -13,11 +13,13 @@ namespace WishYouWereHere3D.Common
             {
                 _dialogueInputDeviceManager.keyInputSwitchesModeTo = InputDeviceManager.KeyInputSwitchesModeTo.Mouse;
                 _dialogueInputDeviceManager.detectMouseControl = true;
+                _dialogueInputDeviceManager.alwaysAutoFocus = false;
             }
             else
             {
                 _dialogueInputDeviceManager.keyInputSwitchesModeTo = InputDeviceManager.KeyInputSwitchesModeTo.Keyboard;
                 _dialogueInputDeviceManager.detectMouseControl = false;
+                _dialogueInputDeviceManager.alwaysAutoFocus = true;
             }
         }
     } 
