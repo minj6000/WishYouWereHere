@@ -1,5 +1,7 @@
 ﻿using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
+using System;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using WishYouWereHere3D.Common;
@@ -16,6 +18,11 @@ namespace WishYouWereHere3D.EP1
 
         [SerializeField] Sofa _sofa;
         [SerializeField] RecordPlayer _recordPlayer;
+        [SerializeField] FadeInOutController _fadeInOutController;
+
+        IDisposable _checkMoveItemCountDisposable;
+
+        IObservable<Transform> _conversationEndedObservable;
 
         public enum States
         {
@@ -23,7 +30,7 @@ namespace WishYouWereHere3D.EP1
             MovableSpace,
             Dialogue,
             MoveItem,
-            End
+            Ending            
         }
 
         private States _state = States.Ready;
@@ -43,16 +50,39 @@ namespace WishYouWereHere3D.EP1
                     case States.MoveItem:
                         State_MoveItem();
                         break;
-                    case States.End:
-                        State_End();
+                    case States.Ending:
+                        State_Ending();
                         break;
                 }
             }
         }
 
-        private void State_End()
+        async void EndOfContent()
         {
-            
+            Debug.Log("종료되었습니다.");
+            await _fadeInOutController.FadeOut();
+        }
+
+        private void State_Ending()
+        {
+            PlayerController.Instance.Movable(false);
+            PlayerController.Instance.Rotatable(false);
+
+            if (Configuration.Instance.ConversationControllerType == Configuration.ConversationController.Mouse)
+            {
+                InputHelper.EnableMouseControl(true);
+            }
+
+            DialogueManager.Instance.StartConversation("EP1_Ending");
+
+            _conversationEndedObservable.First()
+                .Subscribe(_ =>
+                {
+                    Debug.Log($"OnConversationEnded {_.name}");
+
+                    //완전 종료
+                    EndOfContent();
+                });
         }
 
         private void State_MoveItem()
@@ -69,6 +99,21 @@ namespace WishYouWereHere3D.EP1
                 item.ClearValues();
                 item.SetHoldable();
             }
+
+            _checkMoveItemCountDisposable = gameObject.ObserveEveryValueChanged(_ => movableItems.Count(item => item.State == MovableItem.States.Released))
+                .Subscribe(count =>
+                {
+                    if(count == 1)
+                    {
+                        string message = DialogueDatabaseHelper.Get("items\\EP1_TEXT_1");
+                        DialogueManager.Instance.ShowAlert(message);
+                    }
+                    else if(count == 2)
+                    {
+                        _checkMoveItemCountDisposable.Dispose();
+                        State = States.Ending;                        
+                    }
+                });
         }
 
         private void State_Dialogue()
@@ -83,11 +128,7 @@ namespace WishYouWereHere3D.EP1
 
             DialogueManager.Instance.StartConversation("EP1");
 
-            Observable.FromEvent<TransformDelegate, Transform>(
-                h => t => h(t),
-                h => DialogueManager.Instance.conversationEnded += h, 
-                h => DialogueManager.Instance.conversationEnded -= h)
-                .First()
+            _conversationEndedObservable.First()
                 .Subscribe(async _ =>
                 {
                     Debug.Log($"OnConversationEnded {_.name}");
@@ -123,9 +164,11 @@ namespace WishYouWereHere3D.EP1
                 });
         }
 
-        private void Ready()
+        private async void Ready()
         {
             InputHelper.EnableMouseControl(false);
+            await _fadeInOutController.FadeIn();
+
             State = States.MovableSpace;
 
             foreach (var item in movableItems)
@@ -137,6 +180,11 @@ namespace WishYouWereHere3D.EP1
 
         private void Start()
         {
+            _conversationEndedObservable = Observable.FromEvent<TransformDelegate, Transform>(
+                h => t => h(t),
+                h => DialogueManager.Instance.conversationEnded += h,
+                h => DialogueManager.Instance.conversationEnded -= h);
+
             Ready();
         }
 
@@ -155,6 +203,7 @@ namespace WishYouWereHere3D.EP1
             
             _sofa = FindObjectOfType<Sofa>();
             _recordPlayer = FindObjectOfType<RecordPlayer>();
+            _fadeInOutController = FindObjectOfType<FadeInOutController>();
         }
     } 
 }
