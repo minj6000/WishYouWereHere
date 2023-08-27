@@ -1,4 +1,5 @@
 using UnityEngine;
+using WishYouWereHere3D.Common.CenterCursor;
 
 namespace WishYouWereHere3D.Common
 {
@@ -10,15 +11,32 @@ namespace WishYouWereHere3D.Common
         {
             if(target == null)
             {
-                target = Camera.main.transform;
+                if (CenterCursorController.Instance != null)
+                {
+                    target = CenterCursorController.Instance.transform;
+                }
+                else
+                {
+                    if (Camera.main != null)
+                    {
+                        target = Camera.main.transform;
+                    }
+                }
             }
         }
 
         private void Reset()
         {
-            if(Camera.main != null)
+            if (CenterCursorController.Instance != null)
             {
-                target = Camera.main.transform;
+                target = CenterCursorController.Instance.transform;
+            }
+            else
+            {
+                if (Camera.main != null)
+                {
+                    target = Camera.main.transform;
+                }
             }
         }
 

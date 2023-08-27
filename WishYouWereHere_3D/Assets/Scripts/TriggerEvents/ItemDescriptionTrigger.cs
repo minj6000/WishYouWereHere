@@ -26,7 +26,7 @@ namespace WishYouWereHere3D.TriggerEvents
                 return;
 
             //거리가 멀어지면 텍스트를 숨긴다.
-            if (Vector3.Distance(transform.position, Camera.main.transform.position) > _hideToDistance)
+            if (Vector3.Distance(transform.position, PlayerController.Instance.transform.position) > _hideToDistance)
             {
                 ClearValues();
             }

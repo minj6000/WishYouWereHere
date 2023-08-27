@@ -9,6 +9,14 @@ namespace WishYouWereHere3D.Common.CenterCursor
         private GameObject _enteredObject;
         public GameObject EnteredObject => _enteredObject;
 
+        private static CenterCursorController _instance;
+        public static CenterCursorController Instance => _instance;
+
+        private void Awake()
+        {
+            _instance = this;
+        }
+
         private void FixedUpdate()
         {
             RaycastHit hit;
