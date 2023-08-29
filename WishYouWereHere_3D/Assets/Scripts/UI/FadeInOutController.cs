@@ -10,7 +10,6 @@ namespace WishYouWereHere3D.UI
 {
     public class FadeInOutController : MonoBehaviour
     {
-        [SerializeField] float fadeTime = 1f;
         Image[] _images;
 
         [SerializeField] GameObject _fadeInOutCanvasPrefab;
@@ -20,12 +19,12 @@ namespace WishYouWereHere3D.UI
             _images = GetComponentsInChildren<Image>();
         }
 
-        public async UniTask FadeIn()
+        public async UniTask FadeIn(float fadeTime = 1f)
         {
             await UniTask.WhenAll(_images.Select(x => x.DOFade(0f, fadeTime).AsyncWaitForCompletion().AsUniTask()));            
         }
 
-        public async UniTask FadeOut()
+        public async UniTask FadeOut(float fadeTime = 1f)
         {
             await UniTask.WhenAll(_images.Select(x => x.DOFade(1f, fadeTime).AsyncWaitForCompletion().AsUniTask()));
         }

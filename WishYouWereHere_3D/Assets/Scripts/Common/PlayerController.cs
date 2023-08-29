@@ -47,6 +47,26 @@ namespace WishYouWereHere3D
             _firstPersonLook.enabled = enable;
         }
 
+        public async UniTask LookAt(Transform lookTransform)
+        {
+            Movable(false);
+            Rotatable(false);
+
+            var upRotation = Quaternion.LookRotation(lookTransform.position - _firstPersonMovement.transform.position);
+
+            _firstPersonMovement.transform.DOLocalRotate(new Vector3(0, upRotation.eulerAngles.y, 0), 1f);
+            await _firstPersonLook.transform.DOLocalRotate(new Vector3(upRotation.eulerAngles.x, 0, 0), 1f).AsyncWaitForCompletion();
+        }
+
+        public async UniTask RotateForward()
+        {
+            Movable(false);
+            Rotatable(false);
+
+            _firstPersonMovement.transform.DORotate(Vector3.zero, 1f);
+            await _firstPersonLook.transform.DORotate(Vector3.zero, 1f).AsyncWaitForCompletion();
+        }
+
         //앉는 애니메이션
         public async UniTask SitDown(Transform sitTransform)
         {
@@ -54,12 +74,11 @@ namespace WishYouWereHere3D
             Rotatable(false);
 
             //앉는 곳까지 이동
-            _firstPersonMovement.transform.DOLookAt(sitTransform.position, 1f);
+            LookAt(sitTransform).Forget();
             await _firstPersonMovement.transform.DOMove(sitTransform.position, 1f).SetSpeedBased().AsyncWaitForCompletion();
 
             //시선을 앞으로
-            _firstPersonMovement.transform.DORotate(Vector3.zero, 1f);            
-            await _firstPersonLook.transform.DORotate(Vector3.zero, 1f).AsyncWaitForCompletion();
+            await RotateForward();
 
             //카메라를 조금 밑으로 이동하여 앉는느낌을 줌
             await _firstPersonLook.transform.DOLocalMoveY(_lookOrgPosition.y - 0.5f, 1f).SetEase(Ease.InQuart).AsyncWaitForCompletion();

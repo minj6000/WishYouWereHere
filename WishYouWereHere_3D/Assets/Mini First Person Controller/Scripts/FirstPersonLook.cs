@@ -35,6 +35,25 @@ public class FirstPersonLook : MonoBehaviour
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
     }
 
+    private void OnEnable()
+    {
+        transform.localRotation.ToAngleAxis(out float y, out _);
+        character.localRotation.ToAngleAxis(out float x, out _);
+
+        if(x > 180f)
+        {
+            x = 360f - x;
+        }
+
+        if(y > 180f)
+        {
+            y = 360f - y;
+        }
+
+        velocity.x = x;
+        velocity.y = y;
+    }
+
     private void OnDisable()
     {
         velocity = Vector2.zero;
