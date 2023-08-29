@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -369,6 +369,13 @@ namespace SBPScripts
         }
         void Update()
         {
+            //UpdateOrigin();
+            UpdateNew();
+        }
+        
+        //원래 코드
+        void UpdateOrigin()
+        {
             ApplyCustomInput();
 
             //GetKeyUp/Down requires an Update Cycle
@@ -387,8 +394,38 @@ namespace SBPScripts
                 bunnyHopAmount = Mathf.Lerp(bunnyHopAmount, 0, Time.deltaTime * 8f);
 
             bunnyHopAmount = Mathf.Clamp01(bunnyHopAmount);
-
         }
+
+        #region 이 컨텐츠에만 사용되는 코드
+        // Controllable가 false일 때는 컨트롤러 입력을 받지 않고, 정지한다.
+        public bool Controllable { get; set; } = true;
+        void UpdateNew()
+        {
+            if (Controllable)
+            {
+                CustomInput("Horizontal", ref customSteerAxis, 5, 5, false);
+                CustomInput("Vertical", ref customAccelerationAxis, 1, 1, false);
+                CustomInput("Horizontal", ref customLeanAxis, 1, 1, false);
+                CustomInput("Vertical", ref rawCustomAccelerationAxis, 1, 1, true);
+            }
+            else
+            {
+                //속도를 낮추는 코드(break 잡는 느낌)
+                if (transform.InverseTransformDirection(rb.velocity).z > 0.2f)
+                {
+                    customAccelerationAxis = Mathf.Clamp(customAccelerationAxis - Time.unscaledDeltaTime, -1f, 1f);
+                    rawCustomAccelerationAxis = -1;
+                }
+                else
+                {
+                    customAccelerationAxis = 0;
+                    rawCustomAccelerationAxis = 0;
+                    rb.velocity = Vector3.zero;
+                }
+            }
+        }
+        #endregion
+
         float GroundConformity(bool toggle)
         {
             if (toggle)
@@ -396,7 +433,6 @@ namespace SBPScripts
                 groundZ = transform.rotation.eulerAngles.z;
             }
             return groundZ;
-
         }
 
         void ApplyCustomInput()

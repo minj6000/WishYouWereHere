@@ -5,7 +5,8 @@ using WishYouWereHere3D.TriggerEvents;
 
 namespace WishYouWereHere3D
 {
-    public class PlayerController : MonoBehaviour
+
+    public class PlayerController : ControllerBase
     {
         static PlayerController _instance = null;
         public static PlayerController Instance
@@ -20,51 +21,24 @@ namespace WishYouWereHere3D
             }
         }
 
-        [SerializeField] FirstPersonMovement _firstPersonMovement;
-        [SerializeField] FirstPersonLook _firstPersonLook;
         [SerializeField] Rigidbody _rigidbody;
 
         [SerializeField] Transform _socketTransform;
         public Transform SocketTransform => _socketTransform;
 
-        Vector3 _lookOrgPosition;
-
         public MovableItem HoldingItem { get; private set; } = null;
 
-        private void Awake()
+        Vector3 _lookOrgPosition;
+
+        void Awake()
         {
             _lookOrgPosition = _firstPersonLook.transform.localPosition;
         }
 
-        public void Movable(bool enable)
+        public override void Movable(bool enable)
         {
             _firstPersonMovement.enabled = enable;
             _rigidbody.isKinematic = !enable;
-        }
-
-        public void Rotatable(bool enable)
-        {
-            _firstPersonLook.enabled = enable;
-        }
-
-        public async UniTask LookAt(Transform lookTransform)
-        {
-            Movable(false);
-            Rotatable(false);
-
-            var upRotation = Quaternion.LookRotation(lookTransform.position - _firstPersonMovement.transform.position);
-
-            _firstPersonMovement.transform.DOLocalRotate(new Vector3(0, upRotation.eulerAngles.y, 0), 1f);
-            await _firstPersonLook.transform.DOLocalRotate(new Vector3(upRotation.eulerAngles.x, 0, 0), 1f).AsyncWaitForCompletion();
-        }
-
-        public async UniTask RotateForward()
-        {
-            Movable(false);
-            Rotatable(false);
-
-            _firstPersonMovement.transform.DORotate(Vector3.zero, 1f);
-            await _firstPersonLook.transform.DORotate(Vector3.zero, 1f).AsyncWaitForCompletion();
         }
 
         //앉는 애니메이션
