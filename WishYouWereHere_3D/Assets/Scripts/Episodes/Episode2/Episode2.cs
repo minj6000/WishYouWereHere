@@ -9,11 +9,11 @@ namespace WishYouWereHere3D.EP2
 {
     public class Episode2 : MonoBehaviour
     {
-        [SerializeField] TakePictureEffector _takePictureEffector;
         [SerializeField] PictureSubject[] _pictureSubjects;
         [SerializeField] Plaza _plaza;
 
         [SerializeField] FadeInOutController _fadeInOutController;
+        [SerializeField] FrameCanvasManager _frameCanvasManager;
 
         public enum States
         {
@@ -111,8 +111,7 @@ namespace WishYouWereHere3D.EP2
                 
                 if(result.AsBool)
                 {
-                    await _takePictureEffector.TakePictureEffect();
-                    await UniTask.Delay(500);
+                    await TakePictureEffect();
                 }
 
                 PlayerController.Instance.Movable(true);
@@ -123,6 +122,23 @@ namespace WishYouWereHere3D.EP2
                     State = States.Ending;
                 }
             });
+        }
+
+        async UniTask TakePictureEffect()
+        {
+            await UniTask.Delay(500);
+            _fadeInOutController.SetColor(new Color(1, 1, 1, 0));
+            await _fadeInOutController.FadeOut(0.2f);
+            _frameCanvasManager.Show();
+            await _fadeInOutController.FadeIn(0.3f);
+
+            await UniTask.Delay(3000);
+
+            await _fadeInOutController.FadeOut(0.2f);
+            _frameCanvasManager.Hide();
+            await _fadeInOutController.FadeIn(0.3f);
+
+            _fadeInOutController.SetColor(new Color(0, 0, 0, 0));
         }
 
         private void State_Prolog()
@@ -160,10 +176,10 @@ namespace WishYouWereHere3D.EP2
         void AssignReferences()
         {
             _pictureSubjects = FindObjectsOfType<PictureSubject>();
-            _takePictureEffector = FindObjectOfType<TakePictureEffector>();
-
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
             _plaza = FindObjectOfType<Plaza>();
+
+            _frameCanvasManager = FindObjectOfType<FrameCanvasManager>();
         }
     }
 }

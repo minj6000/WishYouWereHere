@@ -1,6 +1,7 @@
 using MultiProjectorWarpSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using WishYouWereHere3D.EP2;
 using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.Util
@@ -12,6 +13,7 @@ namespace WishYouWereHere3D.Util
 		[SerializeField] Canvas _mainCanvas;
 		[SerializeField] ProjectionWarpSystem _projectionWarpSystem;
 		[SerializeField] FadeInOutController _fadeInOutController;
+		[SerializeField] FrameCanvasManager _frameCanvasManager;
 
 		[Button]
 		void ChangeToNormalMode()
@@ -19,7 +21,8 @@ namespace WishYouWereHere3D.Util
             _mainCamera.enabled = true;
 			_projectionWarpSystem.gameObject.SetActive(false);
 			_mainCanvas.targetDisplay = 0;
-            _fadeInOutController.InstantiateCanvasesForAllDisplay();
+            _fadeInOutController?.InstantiateCanvasesForAllDisplay();
+            _frameCanvasManager?.InstantiateCanvasesForAllDisplay();
 
         }
 
@@ -29,7 +32,8 @@ namespace WishYouWereHere3D.Util
 			_mainCamera.enabled = false;
 			_projectionWarpSystem.gameObject.SetActive(true);
 			_mainCanvas.targetDisplay = _canvasDisplayIndex;
-            _fadeInOutController.InstantiateCanvasesForAllDisplay();
+            _fadeInOutController?.InstantiateCanvasesForAllDisplay();
+            _frameCanvasManager?.InstantiateCanvasesForAllDisplay();
         }
 	}
 }

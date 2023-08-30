@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using MultiProjectorWarpSystem;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,11 @@ namespace WishYouWereHere3D.UI
         private void Awake()
         {
             _images = GetComponentsInChildren<Image>();
+        }
+
+        public void SetColor(Color color)
+        {
+            Array.ForEach(_images, x => x.color = color);
         }
 
         public async UniTask FadeIn(float fadeTime = 1f)
