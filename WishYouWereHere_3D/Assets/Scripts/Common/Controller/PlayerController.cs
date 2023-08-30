@@ -52,7 +52,7 @@ namespace WishYouWereHere3D
             await _firstPersonMovement.transform.DOMove(sitTransform.position, 1f).SetSpeedBased().AsyncWaitForCompletion();
 
             //시선을 앞으로
-            await RotateForward();
+            await LookForward();
 
             //카메라를 조금 밑으로 이동하여 앉는느낌을 줌
             await _firstPersonLook.transform.DOLocalMoveY(_lookOrgPosition.y - 0.5f, 1f).SetEase(Ease.InQuart).AsyncWaitForCompletion();

@@ -20,21 +20,22 @@ namespace WishYouWereHere3D
         public virtual async UniTask LookAt(Transform lookTransform)
         {
             Movable(false);
-            Rotatable(false);                        
-            
-            var upRotation = Quaternion.LookRotation(lookTransform.position - _firstPersonMovement.transform.position);
+            Rotatable(false);
 
-            _firstPersonMovement.transform.DORotate(new Vector3(0, upRotation.eulerAngles.y, 0), 1f);
-            await _firstPersonLook.transform.DORotate(new Vector3(upRotation.eulerAngles.x, 0, 0), 1f).AsyncWaitForCompletion();
+            var lookAtPosition = lookTransform.position;
+            lookAtPosition.y = _firstPersonMovement.transform.position.y;
+
+            _firstPersonMovement.transform.DOLookAt(lookAtPosition, 1f);
+            await _firstPersonLook.transform.DOLookAt(lookTransform.position, 1f).AsyncWaitForCompletion();
         }
 
-        public virtual async UniTask RotateForward()
+        public virtual async UniTask LookForward()
         {
             Movable(false);
             Rotatable(false);
 
-            _firstPersonMovement.transform.DORotate(Vector3.zero, 1f);
-            await _firstPersonLook.transform.DORotate(Vector3.zero, 1f).AsyncWaitForCompletion();
+            _firstPersonMovement.transform.DOLocalRotate(Vector3.zero, 1f);
+            await _firstPersonLook.transform.DOLocalRotate(Vector3.zero, 1f).AsyncWaitForCompletion();
         }
     }
 }

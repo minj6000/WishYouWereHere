@@ -32,6 +32,17 @@ namespace WishYouWereHere3D
             {
                 LookAt(_lookTestTransform).Forget();
             }
+
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                LookForward().Forget();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                Movable(true);
+                Rotatable(true);
+            }
         }
     }
 }
