@@ -146,6 +146,8 @@ namespace SBPScripts
         public WayPointSystem wayPointSystem;
         public AirTimeSettings airTimeSettings;
 
+        private int startWaypointFrameCount = 0;
+
         void Awake()
         {
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
@@ -397,18 +399,44 @@ namespace SBPScripts
         }
 
         #region 이 컨텐츠에만 사용되는 코드
-        // Controllable가 false일 때는 컨트롤러 입력을 받지 않고, 정지한다.
-        public bool Controllable { get; set; } = true;
+
+        public enum ControllStates
+        {
+            Stop,
+            PlayerControl,
+            WaypointControl,
+        }
+
+        private ControllStates _controllStates = ControllStates.Stop;
+        public ControllStates ControllState 
+        { 
+            get => _controllStates; 
+            set
+            {
+                _controllStates = value;
+                if(ControllState == ControllStates.WaypointControl)
+                {
+                    startWaypointFrameCount = Time.frameCount;
+                }
+            }
+        }    
+
         void UpdateNew()
         {
-            if (Controllable)
+            if(ControllState == ControllStates.WaypointControl)
+            {
+                UpdateOrigin();
+                return;
+            }
+
+            if (ControllState == ControllStates.PlayerControl)
             {
                 CustomInput("Horizontal", ref customSteerAxis, 5, 5, false);
                 CustomInput("Vertical", ref customAccelerationAxis, 1, 1, false);
                 CustomInput("Horizontal", ref customLeanAxis, 1, 1, false);
                 CustomInput("Vertical", ref rawCustomAccelerationAxis, 1, 1, true);
             }
-            else
+            else if(ControllState == ControllStates.Stop)
             {
                 //속도를 낮추는 코드(break 잡는 느낌)
                 if (transform.InverseTransformDirection(rb.velocity).z > 0.2f)
@@ -421,6 +449,7 @@ namespace SBPScripts
                     customAccelerationAxis = 0;
                     rawCustomAccelerationAxis = 0;
                     rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
                 }
             }
         }
@@ -474,16 +503,18 @@ namespace SBPScripts
             {
                 if (wayPointSystem.recordingState == WayPointSystem.RecordingState.Playback)
                 {
-                    if (wayPointSystem.movementInstructionSet.Count - 1 > Time.frameCount / wayPointSystem.frameIncrement)
+                    int frameCount = Time.frameCount - startWaypointFrameCount;
+
+                    if (wayPointSystem.movementInstructionSet.Count - 1 > frameCount / wayPointSystem.frameIncrement)
                     {
-                        transform.position = Vector3.Lerp(transform.position, wayPointSystem.bicyclePositionTransform[Time.frameCount / wayPointSystem.frameIncrement], Time.deltaTime * wayPointSystem.frameIncrement);
-                        transform.rotation = Quaternion.Lerp(transform.rotation, wayPointSystem.bicycleRotationTransform[Time.frameCount / wayPointSystem.frameIncrement], Time.deltaTime * wayPointSystem.frameIncrement);
-                        WayPointInput(wayPointSystem.movementInstructionSet[Time.frameCount / wayPointSystem.frameIncrement].x, ref customSteerAxis, 5, 5, false);
-                        WayPointInput(wayPointSystem.movementInstructionSet[Time.frameCount / wayPointSystem.frameIncrement].y, ref customAccelerationAxis, 1, 1, false);
-                        WayPointInput(wayPointSystem.movementInstructionSet[Time.frameCount / wayPointSystem.frameIncrement].x, ref customLeanAxis, 1, 1, false);
-                        WayPointInput(wayPointSystem.movementInstructionSet[Time.frameCount / wayPointSystem.frameIncrement].y, ref rawCustomAccelerationAxis, 1, 1, true);
-                        sprint = wayPointSystem.sprintInstructionSet[Time.frameCount / wayPointSystem.frameIncrement];
-                        bunnyHopInputState = wayPointSystem.bHopInstructionSet[Time.frameCount / wayPointSystem.frameIncrement];
+                        transform.position = Vector3.Lerp(transform.position, wayPointSystem.bicyclePositionTransform[frameCount / wayPointSystem.frameIncrement], Time.deltaTime * wayPointSystem.frameIncrement);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, wayPointSystem.bicycleRotationTransform[frameCount / wayPointSystem.frameIncrement], Time.deltaTime * wayPointSystem.frameIncrement);
+                        WayPointInput(wayPointSystem.movementInstructionSet[frameCount / wayPointSystem.frameIncrement].x, ref customSteerAxis, 5, 5, false);
+                        WayPointInput(wayPointSystem.movementInstructionSet[frameCount / wayPointSystem.frameIncrement].y, ref customAccelerationAxis, 1, 1, false);
+                        WayPointInput(wayPointSystem.movementInstructionSet[frameCount / wayPointSystem.frameIncrement].x, ref customLeanAxis, 1, 1, false);
+                        WayPointInput(wayPointSystem.movementInstructionSet[frameCount / wayPointSystem.frameIncrement].y, ref rawCustomAccelerationAxis, 1, 1, true);
+                        sprint = wayPointSystem.sprintInstructionSet[frameCount / wayPointSystem.frameIncrement];
+                        bunnyHopInputState = wayPointSystem.bHopInstructionSet[frameCount / wayPointSystem.frameIncrement];
                     }
                 }
             }

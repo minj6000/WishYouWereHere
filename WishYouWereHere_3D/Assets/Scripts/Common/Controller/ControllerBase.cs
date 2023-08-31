@@ -14,11 +14,21 @@ namespace WishYouWereHere3D
 
         public virtual void Rotatable(bool enable)
         {
+            if(_firstPersonLook == null)
+            {
+                return;
+            }
+
             _firstPersonLook.enabled = enable;
         }
 
         public virtual async UniTask LookAt(Transform lookTransform)
         {
+            if (_firstPersonMovement == null || _firstPersonLook == null)
+            {
+                return;
+            }
+
             Movable(false);
             Rotatable(false);
 
@@ -31,6 +41,11 @@ namespace WishYouWereHere3D
 
         public virtual async UniTask LookForward()
         {
+            if (_firstPersonMovement == null || _firstPersonLook == null)
+            {
+                return;
+            }
+
             Movable(false);
             Rotatable(false);
 

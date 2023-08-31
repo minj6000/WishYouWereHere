@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
+using System.Linq;
 using UnityEngine;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.UI;
@@ -9,11 +10,15 @@ namespace WishYouWereHere3D.EP2
 {
     public class Episode2 : MonoBehaviour
     {
-        [SerializeField] PictureSubject[] _pictureSubjects;
+        [SerializeField] EventArea[] _pictureAreas;
         [SerializeField] Plaza _plaza;
 
         [SerializeField] FadeInOutController _fadeInOutController;
         [SerializeField] FrameCanvasManager _frameCanvasManager;
+
+        [SerializeField] BicycleController _chenBicycleController;
+
+        [SerializeField] TextAsset[] _chenFirstMoveDatas;
 
         public enum States
         {
@@ -54,22 +59,32 @@ namespace WishYouWereHere3D.EP2
         {
             InputHelper.EnableMouseControl(false);
 
-            PlayerController.Instance.Movable(true);
-            PlayerController.Instance.Rotatable(true);
+            BicycleController.Instance.Movable(true);
+            BicycleController.Instance.Rotatable(true);
 
-            foreach (var pictureSubject in _pictureSubjects)
+            foreach (var pictureArea in _pictureAreas)
             {
-                pictureSubject.Enabled = true;
+                pictureArea.Enabled = true;
 
-                var ps = pictureSubject;
-                pictureSubject.OnEnter.AddListener(() =>
+                var pa = pictureArea;
+                pa.OnBeginTrigger.AddListener(() =>
                 {
-                    StartPictureSubjectEvent(ps);
+                    pa.OnBeginTrigger.RemoveAllListeners();
+                    pa.Enabled = false;                    
+
+                    BicycleController.Instance.Movable(false);
+
+                    pa.PictureSubject.OnEnter.AddListener(() =>
+                    {
+                        pa.PictureSubject.OnEnter.RemoveAllListeners();
+                        StartPictureSubjectEvent(pa.PictureSubject);
+                    });
                 });
             }
 
             _plaza.OnBeginTrigger.AddListener(() =>
             {
+                _plaza.OnBeginTrigger.RemoveAllListeners();
                 StartPlazaEvent();
             });
         }
@@ -78,16 +93,16 @@ namespace WishYouWereHere3D.EP2
         {
             _plaza.Enabled = false;
 
-            PlayerController.Instance.Movable(false);
-            PlayerController.Instance.Rotatable(false);
+            BicycleController.Instance.Movable(false);
+            BicycleController.Instance.Rotatable(false);
 
             InputHelper.EnableMouseControl(true);
             DialogueManager.Instance.StartConversationWithEndedAction("EP2_±¤Àå", _ =>
             {
                 InputHelper.EnableMouseControl(false);
 
-                PlayerController.Instance.Movable(true);
-                PlayerController.Instance.Rotatable(true);
+                BicycleController.Instance.Movable(true);
+                BicycleController.Instance.Rotatable(true);
             });
         }
 
@@ -95,10 +110,10 @@ namespace WishYouWereHere3D.EP2
         {
             pictureSubject.Enabled = false;
 
-            PlayerController.Instance.Movable(false);
-            PlayerController.Instance.Rotatable(false);
+            BicycleController.Instance.Movable(false);
+            BicycleController.Instance.Rotatable(false);
 
-            await PlayerController.Instance.LookAt(pictureSubject.transform);
+            await BicycleController.Instance.LookAt(pictureSubject.PictureTarget);
 
             DialogueLua.SetVariable("EP2_ÇÇ»çÃ¼", pictureSubject.Name);
 
@@ -111,11 +126,11 @@ namespace WishYouWereHere3D.EP2
                 
                 if(result.AsBool)
                 {
-                    await TakePictureEffect();
+                    await TakePictureEffect(pictureSubject);
                 }
 
-                PlayerController.Instance.Movable(true);
-                PlayerController.Instance.Rotatable(true);
+                BicycleController.Instance.Movable(true);
+                BicycleController.Instance.Rotatable(true);
 
                 if (pictureSubject.Name == "Ã¾")
                 {
@@ -124,18 +139,24 @@ namespace WishYouWereHere3D.EP2
             });
         }
 
-        async UniTask TakePictureEffect()
+        async UniTask TakePictureEffect(PictureSubject pictureSubject)
         {
             await UniTask.Delay(500);
             _fadeInOutController.SetColor(new Color(1, 1, 1, 0));
             await _fadeInOutController.FadeOut(0.2f);
-            _frameCanvasManager.Show();
+            {
+                pictureSubject.PrePicture();
+                _frameCanvasManager.Show();
+            }
             await _fadeInOutController.FadeIn(0.3f);
-
+            
             await UniTask.Delay(3000);
 
             await _fadeInOutController.FadeOut(0.2f);
-            _frameCanvasManager.Hide();
+            {
+                _frameCanvasManager.Hide();
+                pictureSubject.PostPicture();
+            }
             await _fadeInOutController.FadeIn(0.3f);
 
             _fadeInOutController.SetColor(new Color(0, 0, 0, 0));
@@ -144,6 +165,7 @@ namespace WishYouWereHere3D.EP2
         private void State_Prolog()
         {
             InputHelper.EnableMouseControl(true);
+            _chenBicycleController.Movable(true);
             DialogueManager.Instance.StartConversationWithEndedAction("EP2", _ =>
             {
                 State = States.Movable;
@@ -154,15 +176,17 @@ namespace WishYouWereHere3D.EP2
         {
             InputHelper.EnableMouseControl(false);
 
-            PlayerController.Instance.Movable(false);
-            PlayerController.Instance.Rotatable(false);
+            BicycleController.Instance.Movable(false);
+            BicycleController.Instance.Rotatable(false);
             
             await _fadeInOutController.FadeIn(2f);
 
-            foreach (var pictureSubject in _pictureSubjects)
+            foreach (var pictureArea in _pictureAreas)
             {
-                pictureSubject.Enabled = false;
+                pictureArea.Enabled = false;
             }
+
+            _chenBicycleController.LoadWaypointData(_chenFirstMoveDatas[Random.Range(0, _chenFirstMoveDatas.Length)].text);
 
             State = States.Prolog;
         }
@@ -175,11 +199,12 @@ namespace WishYouWereHere3D.EP2
         [Button]
         void AssignReferences()
         {
-            _pictureSubjects = FindObjectsOfType<PictureSubject>();
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
             _plaza = FindObjectOfType<Plaza>();
 
             _frameCanvasManager = FindObjectOfType<FrameCanvasManager>();
+            _pictureAreas = FindObjectsOfType<EventArea>();
+            _chenBicycleController = FindObjectsOfType<BicycleController>().FirstOrDefault(controller=> !controller.IsPlayer);
         }
     }
 }
