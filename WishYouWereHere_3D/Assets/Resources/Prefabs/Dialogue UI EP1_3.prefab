@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 3011539301744671739}
   - component: {fileID: 3011539301744671716}
   m_Layer: 5
-  m_Name: Dialogue UI EP1
+  m_Name: Dialogue UI EP1_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

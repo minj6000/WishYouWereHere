@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+Ôªøusing Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using System.Linq;
@@ -97,7 +97,7 @@ namespace WishYouWereHere3D.EP2
             BicycleController.Instance.Rotatable(false);
 
             InputHelper.EnableMouseControl(true);
-            DialogueManager.Instance.StartConversationWithEndedAction("EP2_±§¿Â", _ =>
+            DialogueManager.Instance.StartConversationWithEndedAction("EP2_Í¥ëÏû•", _ =>
             {
                 InputHelper.EnableMouseControl(false);
 
@@ -115,14 +115,14 @@ namespace WishYouWereHere3D.EP2
 
             await BicycleController.Instance.LookAt(pictureSubject.PictureTarget);
 
-            DialogueLua.SetVariable("EP2_««ªÁ√º", pictureSubject.Name);
+            DialogueLua.SetVariable("EP2_ÌîºÏÇ¨Ï≤¥", pictureSubject.Name);            
 
             InputHelper.EnableMouseControl(true);
-            DialogueManager.Instance.StartConversationWithEndedAction("EP2_««ªÁ√º_º±≈√", async _ =>
+            DialogueManager.Instance.StartConversationWithEndedAction("EP2_ÌîºÏÇ¨Ï≤¥_ÏÑ†ÌÉù", async _ =>
             {
                 InputHelper.EnableMouseControl(false);
 
-                var result = DialogueLua.GetVariable("EP2_ªÁ¡¯¬Ô¿Ω");
+                var result = DialogueLua.GetVariable("EP2_ÏÇ¨ÏßÑÏ∞çÏùå");
                 
                 if(result.AsBool)
                 {
@@ -132,7 +132,7 @@ namespace WishYouWereHere3D.EP2
                 BicycleController.Instance.Movable(true);
                 BicycleController.Instance.Rotatable(true);
 
-                if (pictureSubject.Name == "√æ")
+                if (pictureSubject.Name == "Ï≤∏")
                 {
                     State = States.Ending;
                 }
