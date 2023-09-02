@@ -37,21 +37,30 @@ public class FirstPersonLook : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.localRotation.ToAngleAxis(out float y, out _);
-        character.localRotation.ToAngleAxis(out float x, out _);
-
-        if(x > 180f)
-        {
-            x = 360f - x;
-        }
+        float y = character.localRotation.eulerAngles.y;
+        float x = transform.localRotation.eulerAngles.x;
 
         if(y > 180f)
         {
-            y = 360f - y;
+            y -= 360f;
+        }
+        else if (y < -180f)
+        {
+            y += 360f;
         }
 
-        velocity.x = -x;
-        velocity.y = -y;
+        if (x > 180f)
+        {
+            x -= 360f;
+        }
+        else if(x < -180f)
+        {
+            x += 360f;
+        }
+
+
+        Debug.Log($"OnEnable {y}, {-x}");
+        velocity = new Vector2(y, -x);
     }
 
     private void OnDisable()

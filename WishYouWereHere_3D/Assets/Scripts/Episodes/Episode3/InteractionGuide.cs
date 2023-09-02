@@ -29,8 +29,15 @@ namespace WishYouWereHere3D.EP3
 
         private void Start()
         {
-            _mouseInteractionIcon.SetActive(false);
-            _spaceInteractionIcon.SetActive(false);
+            if(_mouseInteractionIcon != null)
+            {
+                _mouseInteractionIcon.SetActive(false);
+            }
+
+            if(_spaceInteractionIcon != null)
+            {
+                _spaceInteractionIcon.SetActive(false);
+            }
         }
 
         private void Update()
