@@ -1,11 +1,9 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using WishYouWereHere3D.TriggerEvents;
 
-namespace WishYouWereHere3D
+namespace WishYouWereHere3D.Common
 {
-
     public class PlayerController : ControllerBase
     {
         static PlayerController _instance = null;
@@ -21,12 +19,7 @@ namespace WishYouWereHere3D
             }
         }
 
-        [SerializeField] Rigidbody _rigidbody;
-
-        [SerializeField] Transform _socketTransform;
-        public Transform SocketTransform => _socketTransform;
-
-        public MovableItem HoldingItem { get; private set; } = null;
+        [SerializeField] protected Rigidbody _rigidbody;
 
         Vector3 _lookOrgPosition;
 
@@ -65,40 +58,6 @@ namespace WishYouWereHere3D
             Rotatable(false);
 
             await _firstPersonLook.transform.DOLocalMoveY(_lookOrgPosition.y, 1f).SetEase(Ease.OutQuart).AsyncWaitForCompletion();
-        }
-
-        private void LateUpdate()
-        {
-            if(HoldingItem != null && HoldingItem.State == MovableItem.States.Holding)
-            {
-                HoldingItem.transform.position = SocketTransform.position;
-                HoldingItem.transform.rotation = SocketTransform.rotation;
-            }
-        }
-
-        public bool CanHoldItem()
-        {
-            if(HoldingItem != null)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool HoldItem(MovableItem item)
-        {
-            if(!CanHoldItem())
-            {
-                return false;
-            }
-
-            HoldingItem = item;
-            return true;
-        }
-
-        public void ReleaseItem()
-        {
-            HoldingItem = null;
         }
     }
 }

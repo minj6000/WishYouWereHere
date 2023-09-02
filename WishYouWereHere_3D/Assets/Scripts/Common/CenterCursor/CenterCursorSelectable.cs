@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WishYouWereHere3D.Common.CenterCursor
+namespace WishYouWereHere3D.Common
 {
     [RequireComponent(typeof(Outline))]
     public class CenterCursorSelectable : MonoBehaviour

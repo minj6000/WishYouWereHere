@@ -1,10 +1,11 @@
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using WishYouWereHere3D.Common;
+using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.EP4
@@ -72,7 +73,7 @@ namespace WishYouWereHere3D.EP4
                 {
                     _sofa.Enabled = false;
 
-                    //¼ÒÆÄ¿¡ ¾É´Â ¿¬Ãâ
+                    //ì†ŒíŒŒì— ì•‰ëŠ” ì—°ì¶œ
                     await PlayerController.Instance.SitDown(_sofa.SitTransform);
                     State = States.Ending;
                 });
@@ -87,12 +88,12 @@ namespace WishYouWereHere3D.EP4
             {
                 var d = dissolveInLocation;
                 d.Enabled = true;                
-                d.OnBeginTrigger.AddListener(() =>
+                d.OnBeginTrigger.AddListener(async () =>
                 {
                     d.Enabled = false;
-                    DialogueLua.SetVariable("EP4_À§Ä¡", d.LocationName);
+                    DialogueLua.SetVariable("EP4_ìœ„ì¹˜", d.LocationName);
 
-                    SetMouseControl();
+                    SetMouseControl();                    
 
                     DialogueManager.Instance.StartConversationWithEndedAction("EP_4", async _ =>
                     {
@@ -102,7 +103,7 @@ namespace WishYouWereHere3D.EP4
 
                         SetKeyboardControl();
 
-                        if (DialogueLua.GetVariable("EP4_¿Ï·á°ø°£").AsInt == 4)
+                        if (DialogueLua.GetVariable("EP4_ì™„ë£Œê³µê°„").AsInt == 4)
                         {
                             SetMouseControl();
 
@@ -137,6 +138,7 @@ namespace WishYouWereHere3D.EP4
 
         private async void Ready()
         {            
+            DialogueLua.SetVariable("ì‹œìŠ¤í…œê°€ì´ë“œ", "ì´ì•¼ê¸° ë‚˜ëˆ„ê¸°");
             _sofa.Enabled = false;
             await _fadeInOutController.FadeIn(2f);
             State = States.DissolveIn;

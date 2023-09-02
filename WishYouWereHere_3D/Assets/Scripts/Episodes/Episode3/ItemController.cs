@@ -1,5 +1,6 @@
 ﻿using PixelCrushers.DialogueSystem;
 using UnityEngine;
+using WishYouWereHere3D.Common;
 using WishYouWereHere3D.TriggerEvents;
 
 namespace WishYouWereHere3D.EP3

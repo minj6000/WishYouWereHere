@@ -1,5 +1,4 @@
 using UnityEngine;
-using WishYouWereHere3D.Common.CenterCursor;
 
 namespace WishYouWereHere3D.Common
 {

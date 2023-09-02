@@ -390,6 +390,48 @@ MonoBehaviour:
       value: 
       type: 0
       typeString: 
+  - id: 9
+    fields:
+    - title: Name
+      value: "\uC77C\uBC18\uAC00\uC774\uB4DC"
+      type: 0
+      typeString: 
+    - title: Initial Value
+      value: "\uB300\uD654 \uACC4\uC18D\uD558\uAE30"
+      type: 0
+      typeString: CustomFieldType_Text
+    - title: Description
+      value: 
+      type: 0
+      typeString: 
+  - id: 10
+    fields:
+    - title: Name
+      value: "\uC120\uD0DD\uAC00\uC774\uB4DC"
+      type: 0
+      typeString: 
+    - title: Initial Value
+      value: "\uC120\uD0DD"
+      type: 0
+      typeString: CustomFieldType_Text
+    - title: Description
+      value: 
+      type: 0
+      typeString: 
+  - id: 11
+    fields:
+    - title: Name
+      value: "\uC2DC\uC2A4\uD15C\uAC00\uC774\uB4DC"
+      type: 0
+      typeString: 
+    - title: Initial Value
+      value: "\uB2E4\uC74C"
+      type: 0
+      typeString: CustomFieldType_Text
+    - title: Description
+      value: 
+      type: 0
+      typeString: 
   - id: 2
     fields:
     - title: Name
@@ -2562,7 +2604,7 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 167.16406, y: 0}
+    canvasScrollPosition: {x: 123.49774, y: 0}
     canvasZoom: 0.6700003
   - id: 2
     fields:

@@ -5,6 +5,7 @@ using System.Linq;
 using UniRx;
 using UnityEngine;
 using WishYouWereHere3D.Common;
+using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.TriggerEvents;
 using WishYouWereHere3D.UI;
 

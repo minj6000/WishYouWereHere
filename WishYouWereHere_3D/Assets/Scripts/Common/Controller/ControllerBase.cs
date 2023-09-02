@@ -2,9 +2,8 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace WishYouWereHere3D
+namespace WishYouWereHere3D.Common
 {
-
     public abstract class ControllerBase : MonoBehaviour
     {
         [SerializeField] protected FirstPersonMovement _firstPersonMovement;

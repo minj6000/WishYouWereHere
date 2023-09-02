@@ -3,7 +3,7 @@ using System;
 using UniRx;
 using UnityEngine;
 
-namespace WishYouWereHere3D
+namespace WishYouWereHere3D.Common
 {
     public static class DialogueExtensions
     {

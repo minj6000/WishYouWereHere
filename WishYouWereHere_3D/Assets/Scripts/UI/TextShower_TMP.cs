@@ -2,8 +2,6 @@ using Febucci.UI.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UniRx;
-using System;
 
 namespace WishYouWereHere3D.UI
 {

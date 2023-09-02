@@ -2,7 +2,7 @@ using System;
 using UniRx;
 using UnityEngine;
 
-namespace WishYouWereHere3D.Common.CenterCursor
+namespace WishYouWereHere3D.Common
 {
     public class CenterCursorController : MonoBehaviour
     {

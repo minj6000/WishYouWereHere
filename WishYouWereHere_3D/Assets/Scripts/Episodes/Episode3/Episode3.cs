@@ -14,8 +14,6 @@ namespace WishYouWereHere3D.EP3
         [SerializeField] PictureSubject[] _pictureSubjects;
         [SerializeField] FadeInOutController _fadeInOutController;
 
-        [SerializeField] InteractionGuide _interactionGuide;
-
         public enum States
         {
             Ready,
@@ -71,14 +69,15 @@ namespace WishYouWereHere3D.EP3
         {
             InputHelper.EnableMouseControl(false);            
             _selectedPictureSubject.ReadyToTakePicture();
-            _interactionGuide.SpaceInteractionIconActive = true;            
+
+            InteractionGuide.Instance.Show(InteractionGuide.Icons.Space, "사진 찍기");
 
             _updateDisposable = gameObject.UpdateAsObservable()
                 .Subscribe(async _ =>
                 {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
-                        _interactionGuide.SpaceInteractionIconActive = false;
+                        InteractionGuide.Instance.Hide();
                         _updateDisposable.Dispose();
                         
                         await _selectedPictureSubject.TakePictureEffect();
@@ -150,7 +149,6 @@ namespace WishYouWereHere3D.EP3
         {
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
             _pictureSubjects = FindObjectsOfType<PictureSubject>();
-            _interactionGuide = FindObjectOfType<InteractionGuide>();
         }
     }
 }

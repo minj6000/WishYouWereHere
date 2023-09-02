@@ -1,5 +1,5 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
+using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.Common
 {
@@ -60,6 +60,9 @@ namespace WishYouWereHere3D.Common
         ConversationController _conversationController;
         public ConversationController ConversationControllerType => _conversationController;
 
+        [Tooltip("인터렉션 가이드 UI 스타일을 설정합니다.")]
+        InteractionGuide.Styles _interactionGuideStyle = InteractionGuide.Styles.Style1;
+        public InteractionGuide.Styles InteractionGuideStyle => _interactionGuideStyle;
 
 
     }

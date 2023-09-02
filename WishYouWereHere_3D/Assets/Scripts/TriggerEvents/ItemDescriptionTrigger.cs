@@ -50,6 +50,7 @@ namespace WishYouWereHere3D.TriggerEvents
             }
 
             _textShower.ShowText(_textEnterPath);
+            InteractionGuide.Instance.Show(InteractionGuide.Icons.Mouse_L, "살펴 보기");
         }
 
         protected override void OnCenterCursorExit()
@@ -60,6 +61,8 @@ namespace WishYouWereHere3D.TriggerEvents
             {
                 ClearValues();
             }
+
+            InteractionGuide.Instance.Hide();
         }
 
         protected override void OnCenterCursorDown()
@@ -71,6 +74,7 @@ namespace WishYouWereHere3D.TriggerEvents
                 return;
             }
 
+            InteractionGuide.Instance.Hide();
             clicked = true;
             _textShower.ShowText(_textClickedPath);
         }       

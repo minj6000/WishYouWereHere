@@ -58,8 +58,6 @@ public class FirstPersonLook : MonoBehaviour
             x += 360f;
         }
 
-
-        Debug.Log($"OnEnable {y}, {-x}");
         velocity = new Vector2(y, -x);
     }
 
