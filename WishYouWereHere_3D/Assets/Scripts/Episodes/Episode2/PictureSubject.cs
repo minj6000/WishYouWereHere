@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
+using WishYouWereHere3D.Common;
 using WishYouWereHere3D.TriggerEvents;
+using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.EP2
 {
@@ -8,12 +11,18 @@ namespace WishYouWereHere3D.EP2
 		[SerializeField] string _name;
         [SerializeField] Transform _pictureTarget;
 
+        FadeInOutController _fadeInOutController;
+        FrameCanvasManager _frameCanvasManager;
+
         Animator _animator;
 
         protected override void Awake()
         {
             base.Awake();
             _animator = GetComponent<Animator>();
+
+            _fadeInOutController = FindObjectOfType<FadeInOutController>();
+            _frameCanvasManager = FindObjectOfType<FrameCanvasManager>();
         }
 
         public string Name
@@ -46,6 +55,29 @@ namespace WishYouWereHere3D.EP2
             {
                 _animator.enabled = true;
             }
+        }
+
+        public async UniTask TakePictureEffect()
+        {
+            await UniTask.Delay(500);
+            _fadeInOutController.SetColor(new Color(1, 1, 1, 0));
+            await _fadeInOutController.FadeOut(0.2f);
+            {
+                PrePicture();
+                _frameCanvasManager.Show();
+            }
+            await _fadeInOutController.FadeIn(0.3f);
+
+            await UniTask.Delay(3000);
+
+            await _fadeInOutController.FadeOut(0.2f);
+            {
+                _frameCanvasManager.Hide();
+                PostPicture();
+            }
+            await _fadeInOutController.FadeIn(0.3f);
+
+            _fadeInOutController.SetColor(new Color(0, 0, 0, 0));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using PixelCrushers.DialogueSystem;
+﻿using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine;
@@ -125,9 +124,11 @@ namespace WishYouWereHere3D.EP2
                 var result = DialogueLua.GetVariable("EP2_사진찍음");
                 
                 if(result.AsBool)
-                {
-                    await TakePictureEffect(pictureSubject);
+                {                    
+                    await pictureSubject.TakePictureEffect(); 
                 }
+
+                await BicycleController.Instance.LookForward();
 
                 BicycleController.Instance.Movable(true);
                 BicycleController.Instance.Rotatable(true);
@@ -137,29 +138,6 @@ namespace WishYouWereHere3D.EP2
                     State = States.Ending;
                 }
             });
-        }
-
-        async UniTask TakePictureEffect(PictureSubject pictureSubject)
-        {
-            await UniTask.Delay(500);
-            _fadeInOutController.SetColor(new Color(1, 1, 1, 0));
-            await _fadeInOutController.FadeOut(0.2f);
-            {
-                pictureSubject.PrePicture();
-                _frameCanvasManager.Show();
-            }
-            await _fadeInOutController.FadeIn(0.3f);
-            
-            await UniTask.Delay(3000);
-
-            await _fadeInOutController.FadeOut(0.2f);
-            {
-                _frameCanvasManager.Hide();
-                pictureSubject.PostPicture();
-            }
-            await _fadeInOutController.FadeIn(0.3f);
-
-            _fadeInOutController.SetColor(new Color(0, 0, 0, 0));
         }
 
         private void State_Prolog()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.UI;
 
@@ -10,14 +11,21 @@ namespace WishYouWereHere3D.TriggerEvents
         [SerializeField] protected string _textClickedPath;
         [SerializeField] protected TextShower_TMP _textShower;
 
-        protected float _hideToDistance;
+        [SerializeField] protected bool _useCustomHideToDistance = false;
+        
+        [ShowIf("_useCustomHideToDistance")]
+        [SerializeField] protected float _hideToDistance;
+
         protected bool clicked;
         public bool Clicked => clicked;
 
         protected virtual void Start()
         {
             clicked = false;
-            _hideToDistance = Configuration.Instance.ItemDescription.HideToDistance;
+            if(!_useCustomHideToDistance)
+            {
+                _hideToDistance = Configuration.Instance.ItemDescription.HideToDistance;
+            }
         }
 
         protected virtual void Update()

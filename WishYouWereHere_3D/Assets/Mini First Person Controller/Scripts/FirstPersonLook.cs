@@ -50,8 +50,8 @@ public class FirstPersonLook : MonoBehaviour
             y = 360f - y;
         }
 
-        velocity.x = x;
-        velocity.y = y;
+        velocity.x = -x;
+        velocity.y = -y;
     }
 
     private void OnDisable()

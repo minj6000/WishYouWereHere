@@ -293,7 +293,7 @@ MonoBehaviour:
   - id: 7
     fields:
     - title: Name
-      value: "EP3_\uAC08\uC0C9\uC6D0\uD53C\uC2A4"
+      value: "EP3_\uB4DC\uB808\uC2A4"
       type: 0
       typeString: CustomFieldType_Text
     - title: Pictures
@@ -301,8 +301,8 @@ MonoBehaviour:
       type: 3
       typeString: CustomFieldType_Files
     - title: Description
-      value: "\uAC08\uC0C9\uC758 \uC6D0\uD53C\uC2A4\uB2E4.\n\uC0AC\uC2E4 \uC6D0\uD53C\uC2A4\uBCF4\uB2E4\uB294
-        \uB4DC\uB808\uC2A4\uB77C\uACE0 \uD558\uB294 \uAC8C \uB9DE\uC744 \uAC83 \uAC19\uB2E4."
+      value: "\uAC08\uC0C9\uC758 \uC6D0\uD53C\uC2A4\uB2E4\n\uC0AC\uC2E4 \uC6D0\uD53C\uC2A4\uBCF4\uB2E4\uB294
+        \uB4DC\uB808\uC2A4\uB77C\uACE0 \uD558\uB294 \uAC8C \uB9DE\uC744 \uAC83 \uAC19\uB2E4"
       type: 0
       typeString: CustomFieldType_Text
     - title: Is Item
@@ -330,7 +330,7 @@ MonoBehaviour:
   - id: 9
     fields:
     - title: Name
-      value: "EP3_\uAC80\uC815\uC0C9\uC7A5\uAC11"
+      value: "EP3_\uC7A5\uAC11"
       type: 0
       typeString: CustomFieldType_Text
     - title: Pictures
@@ -430,7 +430,7 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Description
-      value: "\uC6D0\uD53C\uC2A4, \uB3C4\uB355\uACBD, \uC7A5\uAC11"
+      value: "\uB4DC\uB808\uC2A4, \uB3C4\uB355\uACBD, \uC7A5\uAC11"
       type: 0
       typeString: 
   - id: 5
@@ -443,6 +443,20 @@ MonoBehaviour:
       value: 0
       type: 1
       typeString: CustomFieldType_Number
+    - title: Description
+      value: 
+      type: 0
+      typeString: 
+  - id: 6
+    fields:
+    - title: Name
+      value: GuideText
+      type: 0
+      typeString: 
+    - title: Initial Value
+      value: "\uB9C8\uC6B0\uC2A4\uB97C \uB20C\uB7EC \uC778\uD130\uB809\uC158"
+      type: 0
+      typeString: CustomFieldType_Text
     - title: Description
       value: 
       type: 0
@@ -4048,6 +4062,12 @@ MonoBehaviour:
       - originConversationID: 6
         originDialogueID: 0
         destinationConversationID: 6
+        destinationDialogueID: 26
+        isConnector: 0
+        priority: 2
+      - originConversationID: 6
+        originDialogueID: 0
+        destinationConversationID: 6
         destinationDialogueID: 1
         isConnector: 0
         priority: 2
@@ -4061,12 +4081,6 @@ MonoBehaviour:
         originDialogueID: 0
         destinationConversationID: 6
         destinationDialogueID: 3
-        isConnector: 0
-        priority: 2
-      - originConversationID: 6
-        originDialogueID: 0
-        destinationConversationID: 6
-        destinationDialogueID: 26
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -4124,8 +4138,8 @@ MonoBehaviour:
         destinationDialogueID: 4
         isConnector: 0
         priority: 2
-      conditionsString: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] == \"\uC6D0\uD53C\uC2A4\""
-      userScript: 
+      conditionsString: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] == \"\uB4DC\uB808\uC2A4\""
+      userScript: "Variable[\"GuideText\"] = \"\uB300\uD654 \uACC4\uC18D\uD558\uAE30\""
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -4181,7 +4195,7 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] == \"\uB3C4\uB355\uACBD\""
-      userScript: 
+      userScript: "Variable[\"GuideText\"] = \"\uB300\uD654 \uACC4\uC18D\uD558\uAE30\""
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -4236,7 +4250,7 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] == \"\uC7A5\uAC11\""
-      userScript: 
+      userScript: "Variable[\"GuideText\"] = \"\uB300\uD654 \uACC4\uC18D\uD558\uAE30\""
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -4621,8 +4635,8 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: "Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"] = Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"]
-        + 1"
+      userScript: "Variable[\"GuideText\"] = \"\uB300\uD654 \uC885\uB8CC\"\nVariable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"]
+        = Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"] + 1"
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -4949,8 +4963,8 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: "Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"] = Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"]
-        + 1"
+      userScript: "Variable[\"GuideText\"] = \"\uB300\uD654 \uC885\uB8CC\"\nVariable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"]
+        = Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"] + 1"
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -5448,8 +5462,8 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: "Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"] = Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"]
-        + 1"
+      userScript: "Variable[\"GuideText\"] = \"\uB300\uD654 \uC885\uB8CC\"\nVariable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"]
+        = Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"] + 1"
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -5505,7 +5519,8 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: "Variable[\"EP3_\uC644\uB8CC\uC544\uC774\uD15C\"] == 3"
-      userScript: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] = \"\""
+      userScript: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] = \"\"\nVariable[\"GuideText\"]
+        = \"\uB300\uD654 \uACC4\uC18D\uD558\uAE30\""
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -5575,11 +5590,11 @@ MonoBehaviour:
       - title: Title
         value: 
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Description
         value: 
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Actor
         value: 5
         type: 5
@@ -5591,15 +5606,15 @@ MonoBehaviour:
       - title: Menu Text
         value: 
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Dialogue Text
         value: "\uC751, \uC2DC\uC7A5 \uB9CC\uB4DC\uB294 \uAC70 \uB3C4\uC640\uC92C\uC73C\uB2C8\uAE4C.\r"
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       - title: Sequence
         value: 
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
       conversationID: 6
       isRoot: 0
       isGroup: 0
@@ -5682,14 +5697,14 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: 
-      userScript: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] = \"\uC6D0\uD53C\uC2A4\""
+      userScript: "Variable[\"EP3_\uC120\uD0DD\uC544\uC774\uD15C\"] = \"\uB4DC\uB808\uC2A4\""
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 735.90906
-        y: 276.68182
+        x: 729.9389
+        y: 324.443
         width: 160
         height: 30
     - id: 30
@@ -5743,8 +5758,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 921.1363
-        y: 274.40912
+        x: 918.15125
+        y: 323.6628
         width: 160
         height: 30
     - id: 31
@@ -5798,8 +5813,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1110.909
-        y: 275.54547
+        x: 1106.4314
+        y: 321.8141
         width: 160
         height: 30
     - id: 32
@@ -5896,7 +5911,7 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: 
+      userScript: "Variable[\"GuideText\"] = \"\uB300\uD654 \uC885\uB8CC\""
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -5907,8 +5922,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 0, y: 0}
-    canvasZoom: 0.8800001
+    canvasScrollPosition: {x: 26.865627, y: 16.021433}
+    canvasZoom: 0.67000026
   syncInfo:
     syncActors: 0
     syncItems: 0

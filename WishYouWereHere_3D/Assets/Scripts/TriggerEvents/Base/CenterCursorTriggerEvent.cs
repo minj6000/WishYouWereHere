@@ -13,25 +13,25 @@ namespace WishYouWereHere3D.TriggerEvents
 
         protected virtual void OnCenterCursorEnter()
         {
-            Debug.Log($"{name} OnCenterCursorEnter");
+            Debug.Log($"{name} {GetType().Name} OnCenterCursorEnter");
             OnEnter?.Invoke();
         }
 
         protected virtual void OnCenterCursorExit()
         {
-            Debug.Log($"{name} OnCenterCursorExit");
+            Debug.Log($"{name} {GetType().Name} OnCenterCursorExit");
             OnExit?.Invoke();
         }
 
         protected virtual void OnCenterCursorDown()
         {
-            Debug.Log($"{name} OnCenterCursorDown");
+            Debug.Log($"{name} {GetType().Name} OnCenterCursorDown");
             OnDown?.Invoke();
         }
 
         protected virtual void OnCenterCursorUp()
         {
-            Debug.Log($"{name} OnCenterCursorUp");
+            Debug.Log($"{name} {GetType().Name} OnCenterCursorUp");
             OnUp?.Invoke();
         }
     }    

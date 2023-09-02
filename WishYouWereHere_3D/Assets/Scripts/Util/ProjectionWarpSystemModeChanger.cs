@@ -1,12 +1,12 @@
 using MultiProjectorWarpSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using WishYouWereHere3D.EP2;
+using WishYouWereHere3D.Common;
 using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.Util
 {
-	public class ProjectionWarpSystemModeChanger : MonoBehaviour
+    public class ProjectionWarpSystemModeChanger : MonoBehaviour
 	{
 		[SerializeField] int _canvasDisplayIndex = 0;
 		[SerializeField] Camera _mainCamera;
@@ -20,7 +20,10 @@ namespace WishYouWereHere3D.Util
 		{
             _mainCamera.enabled = true;
 			_projectionWarpSystem.gameObject.SetActive(false);
-			_mainCanvas.targetDisplay = 0;
+			if(_mainCanvas != null)
+			{
+				_mainCanvas.targetDisplay = 0;
+			}
             _fadeInOutController?.InstantiateCanvasesForAllDisplay();
             _frameCanvasManager?.InstantiateCanvasesForAllDisplay();
 
@@ -31,7 +34,10 @@ namespace WishYouWereHere3D.Util
 		{
 			_mainCamera.enabled = false;
 			_projectionWarpSystem.gameObject.SetActive(true);
-			_mainCanvas.targetDisplay = _canvasDisplayIndex;
+			if(_mainCanvas != null)
+			{
+				_mainCanvas.targetDisplay = _canvasDisplayIndex;
+			}
             _fadeInOutController?.InstantiateCanvasesForAllDisplay();
             _frameCanvasManager?.InstantiateCanvasesForAllDisplay();
         }

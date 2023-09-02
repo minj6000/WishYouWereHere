@@ -6,6 +6,7 @@ namespace WishYouWereHere3D.Common
     public class Billboard : MonoBehaviour
     {
         [SerializeField] Transform target;
+        [SerializeField] bool fixedYPosition = false;
 
         private void Start()
         {
@@ -44,7 +45,13 @@ namespace WishYouWereHere3D.Common
         {
             if(target != null)
             {
-                transform.LookAt(target);
+                Vector3 targetPosition = target.position;
+                if(fixedYPosition)
+                {
+                    targetPosition.y = transform.position.y;
+                }
+
+                transform.LookAt(targetPosition);
             }
         }        
     }
