@@ -1,7 +1,11 @@
+using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using WishYouWereHere3D.Common;
+using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.EP4
 {
@@ -9,6 +13,9 @@ namespace WishYouWereHere3D.EP4
     {
         [SerializeField] private DissolveInOnLocation[] _dissolveInLocations;
         [SerializeField] private Sofa _sofa;
+        [SerializeField] FadeInOutController _fadeInOutController;
+
+        [SerializeField] float _dissolveDuration = 5f;
 
         public enum States
         {
@@ -38,22 +45,37 @@ namespace WishYouWereHere3D.EP4
                         break;
                 }
             }
-        }        
+        }              
 
-        
-
-
-
-        private void State_Ending()
+        private async void State_Ending()
         {
-            
+            PlayerController.Instance.Rotatable(true);
+            List<UniTask> tasks = new List<UniTask>();
+            foreach (var dissolveInLocation in _dissolveInLocations)
+            {
+                tasks.Add(dissolveInLocation.DissolveObject.Hide(_dissolveDuration));
+                await UniTask.Delay(Random.Range(3000, 5000));
+            }
+
+            await UniTask.WhenAll(tasks);
+            await _fadeInOutController.FadeOut(2f);
         }
 
         private void State_DissolveOut()
         {
             SetKeyboardControl();
-
             _sofa.Enabled = true;
+
+            _sofa.OnDown.AsObservable()
+                .First()
+                .Subscribe(async _ =>
+                {
+                    _sofa.Enabled = false;
+
+                    //소파에 앉는 연출
+                    await PlayerController.Instance.SitDown(_sofa.SitTransform);
+                    State = States.Ending;
+                });
 
         }
 
@@ -75,7 +97,8 @@ namespace WishYouWereHere3D.EP4
                     DialogueManager.Instance.StartConversationWithEndedAction("EP_4", async _ =>
                     {
                         await PlayerController.Instance.LookAt(d.DissolveObject.LookTransform);
-                        await d.DissolveObject.Show();
+                        PlayerController.Instance.Rotatable(true);
+                        await d.DissolveObject.Show(_dissolveDuration);
 
                         SetKeyboardControl();
 
@@ -112,9 +135,10 @@ namespace WishYouWereHere3D.EP4
 
 
 
-        private void Ready()
-        {
+        private async void Ready()
+        {            
             _sofa.Enabled = false;
+            await _fadeInOutController.FadeIn(2f);
             State = States.DissolveIn;
         }
 
@@ -133,6 +157,7 @@ namespace WishYouWereHere3D.EP4
         {
             _dissolveInLocations = FindObjectsOfType<DissolveInOnLocation>();
             _sofa = FindObjectOfType<Sofa>();
+            _fadeInOutController = FindObjectOfType<FadeInOutController>();
         }
     } 
 }
