@@ -1,7 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using PixelCrushers.DialogueSystem;
+﻿using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using WishYouWereHere3D.Common;
@@ -12,7 +10,7 @@ namespace WishYouWereHere3D.EP4
 {
     public class Episode4 : MonoBehaviour
     {
-        [SerializeField] private DissolveInOnLocation[] _dissolveInLocations;
+        [SerializeField] private EventArea[] _eventAreas;
         [SerializeField] private Sofa _sofa;
         [SerializeField] FadeInOutController _fadeInOutController;
 
@@ -21,8 +19,9 @@ namespace WishYouWereHere3D.EP4
         public enum States
         {
             Ready,
-            DissolveIn,
-            DissolveOut,
+            Start,
+            EventArea,
+            Sitable,
             Ending
         }
 
@@ -35,11 +34,14 @@ namespace WishYouWereHere3D.EP4
                 _state = value;
                 switch (_state)
                 {
-                    case States.DissolveIn:
-                        State_DissolveIn();
+                    case States.Start:                        
+                        State_Start();
                         break;
-                    case States.DissolveOut:
-                        State_DissolveOut();
+                    case States.EventArea:
+                        State_EventArea();
+                        break;
+                    case States.Sitable:
+                        State_Sitable();
                         break;
                     case States.Ending:
                         State_Ending();
@@ -51,18 +53,14 @@ namespace WishYouWereHere3D.EP4
         private async void State_Ending()
         {
             PlayerController.Instance.Rotatable(true);
-            List<UniTask> tasks = new List<UniTask>();
-            foreach (var dissolveInLocation in _dissolveInLocations)
-            {
-                tasks.Add(dissolveInLocation.DissolveObject.Hide(_dissolveDuration));
-                await UniTask.Delay(Random.Range(3000, 5000));
-            }
+            // TODO: 디졸브 효과?
 
-            await UniTask.WhenAll(tasks);
+
+
             await _fadeInOutController.FadeOut(2f);
         }
 
-        private void State_DissolveOut()
+        private void State_Sitable()
         {
             SetKeyboardControl();
             _sofa.Enabled = true;
@@ -77,47 +75,46 @@ namespace WishYouWereHere3D.EP4
                     await PlayerController.Instance.SitDown(_sofa.SitTransform);
                     State = States.Ending;
                 });
-
         }
 
-        private void State_DissolveIn()
+        private void State_EventArea()
         {
+            DialogueLua.SetVariable("시스템가이드", "이야기 나누기");
             SetKeyboardControl();
 
-            foreach (var dissolveInLocation in _dissolveInLocations)
+            foreach (var _event in _eventAreas)
             {
-                var d = dissolveInLocation;
-                d.Enabled = true;                
-                d.OnBeginTrigger.AddListener(async () =>
+                var e = _event;
+                e.OnEnter.AddListener(async () =>
                 {
-                    d.Enabled = false;
-                    DialogueLua.SetVariable("EP4_위치", d.LocationName);
-
-                    SetMouseControl();                    
-
-                    DialogueManager.Instance.StartConversationWithEndedAction("EP_4", async _ =>
+                    e.Enabled = false;
+                    await PlayerController.Instance.LookAt(e.LookTransform);
+                    SetMouseControl();
+                    DialogueManager.Instance.StartConversationWithEndedAction("EP_4", _ =>
                     {
-                        await PlayerController.Instance.LookAt(d.DissolveObject.LookTransform);
-                        PlayerController.Instance.Rotatable(true);
-                        await d.DissolveObject.Show(_dissolveDuration);
-
                         SetKeyboardControl();
-
                         if (DialogueLua.GetVariable("EP4_완료공간").AsInt == 4)
                         {
                             SetMouseControl();
-
                             DialogueManager.Instance.StartConversationWithEndedAction("EP_4", _ =>
                             {
                                 SetKeyboardControl();
-
-                                State = States.DissolveOut;
+                                State = States.Sitable;
                             });
                         }
                     });
-
                 });
             }
+        }
+
+        void State_Start()
+        {
+            SetMouseControl();
+            DialogueManager.Instance.StartConversationWithEndedAction("EP_4_시작", _ =>
+            {
+                SetKeyboardControl();
+                State = States.EventArea;
+            });
         }
 
         void SetKeyboardControl()
@@ -137,11 +134,11 @@ namespace WishYouWereHere3D.EP4
 
 
         private async void Ready()
-        {            
-            DialogueLua.SetVariable("시스템가이드", "이야기 나누기");
+        {           
             _sofa.Enabled = false;
+            SetMouseControl();
             await _fadeInOutController.FadeIn(2f);
-            State = States.DissolveIn;
+            State = States.Start;
         }
 
         void Start()
@@ -157,7 +154,7 @@ namespace WishYouWereHere3D.EP4
         [Button]
         void AssignReferences()
         {
-            _dissolveInLocations = FindObjectsOfType<DissolveInOnLocation>();
+            _eventAreas = FindObjectsOfType<EventArea>();
             _sofa = FindObjectOfType<Sofa>();
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
         }
