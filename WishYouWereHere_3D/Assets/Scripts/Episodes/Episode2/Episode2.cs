@@ -140,15 +140,25 @@ namespace WishYouWereHere3D.EP2
             });
         }
 
+        void StartMoveChen(bool value)
+        {
+            _chenBicycleController.Movable(value);
+        }
+
         private void State_Prolog()
         {
             InputHelper.EnableMouseControl(true);
-            _chenBicycleController.Movable(true);
+
+            Lua.RegisterFunction("StartMoveChen", this, 
+                SymbolExtensions.GetMethodInfo(() => StartMoveChen(default)));
             DialogueManager.Instance.StartConversationWithEndedAction("EP2", _ =>
             {
+                Lua.UnregisterFunction("StartMoveChen");
                 State = States.Movable;
             });
         }
+
+
 
         async void Ready()
         {

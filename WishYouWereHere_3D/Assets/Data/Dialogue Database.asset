@@ -3087,7 +3087,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 275
+        x: 274.19354
         y: 189
         width: 160
         height: 30
@@ -3102,7 +3102,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 1
+        value: 3
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -3137,14 +3137,14 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: 
-      userScript: 
+      userScript: StartMoveChen(true)
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 275
-        y: 239
+        x: 275.80646
+        y: 238.19354
         width: 160
         height: 30
     - id: 5
