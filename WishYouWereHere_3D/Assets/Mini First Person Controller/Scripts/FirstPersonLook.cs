@@ -11,6 +11,9 @@ public class FirstPersonLook : MonoBehaviour
     Vector2 frameVelocity;
     public bool isChoiceOn;
 
+    [SerializeField]
+    public bool _limitX180 = false;
+
     void Reset()
     {
         // Get the character from the FirstPersonMovement in parents.
@@ -29,6 +32,11 @@ public class FirstPersonLook : MonoBehaviour
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
         velocity.y = Mathf.Clamp(velocity.y, -90, 90);
+
+        if(_limitX180)
+        {
+            velocity.x = Mathf.Clamp(velocity.x, -90, 90);
+        }
 
         // Rotate camera up-down and controller left-right from velocity.
         transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);

@@ -1,5 +1,6 @@
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
+using UnityEngine;
 
 namespace WishYouWereHere3D.Common
 {
@@ -14,12 +15,18 @@ namespace WishYouWereHere3D.Common
                 _dialogueInputDeviceManager.keyInputSwitchesModeTo = InputDeviceManager.KeyInputSwitchesModeTo.Mouse;
                 _dialogueInputDeviceManager.detectMouseControl = true;
                 _dialogueInputDeviceManager.alwaysAutoFocus = false;
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
             else
             {
                 _dialogueInputDeviceManager.keyInputSwitchesModeTo = InputDeviceManager.KeyInputSwitchesModeTo.Keyboard;
                 _dialogueInputDeviceManager.detectMouseControl = false;
                 _dialogueInputDeviceManager.alwaysAutoFocus = true;
+
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
     } 
