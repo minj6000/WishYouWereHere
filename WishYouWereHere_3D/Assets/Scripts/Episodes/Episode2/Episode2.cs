@@ -9,7 +9,7 @@ namespace WishYouWereHere3D.EP2
 {
     public class Episode2 : MonoBehaviour
     {
-        [SerializeField] EventArea[] _pictureAreas;
+        [SerializeField] PictureEventArea[] _pictureAreas;
         [SerializeField] Plaza _plaza;
 
         [SerializeField] FadeInOutController _fadeInOutController;
@@ -191,7 +191,7 @@ namespace WishYouWereHere3D.EP2
             _plaza = FindObjectOfType<Plaza>();
 
             _frameCanvasManager = FindObjectOfType<FrameCanvasManager>();
-            _pictureAreas = FindObjectsOfType<EventArea>();
+            _pictureAreas = FindObjectsOfType<PictureEventArea>();
             _chenBicycleController = FindObjectsOfType<BicycleController>().FirstOrDefault(controller=> !controller.IsPlayer);
         }
     }

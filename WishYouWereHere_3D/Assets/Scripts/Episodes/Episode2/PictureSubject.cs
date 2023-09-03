@@ -1,6 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using WishYouWereHere3D.Common;
+using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.TriggerEvents;
 using WishYouWereHere3D.UI;
 
@@ -9,10 +12,11 @@ namespace WishYouWereHere3D.EP2
     public class PictureSubject : CenterCursorTriggerEvent
     {
 		[SerializeField] string _name;
-        [SerializeField] Transform _pictureTarget;
+        [SerializeField] Transform _pictureTarget;        
 
         FadeInOutController _fadeInOutController;
         FrameCanvasManager _frameCanvasManager;
+        CameraHelper _cameraHelper;
 
         Animator _animator;
 
@@ -23,6 +27,7 @@ namespace WishYouWereHere3D.EP2
 
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
             _frameCanvasManager = FindObjectOfType<FrameCanvasManager>();
+            _cameraHelper = FindObjectOfType<CameraHelper>();
         }
 
         public string Name
@@ -46,7 +51,7 @@ namespace WishYouWereHere3D.EP2
             if(_animator != null)
             {
                 _animator.enabled = false;
-            }
+            }            
         }
 
         public void PostPicture()
@@ -59,11 +64,16 @@ namespace WishYouWereHere3D.EP2
 
         public async UniTask TakePictureEffect()
         {
+            _cameraHelper.ShowCameraFrame();
+            await _cameraHelper.ZoomIn(1f);
+
             await UniTask.Delay(500);
             _fadeInOutController.SetColor(new Color(1, 1, 1, 0));
             await _fadeInOutController.FadeOut(0.2f);
             {
-                PrePicture();
+                _cameraHelper.HideCameraFrame();
+
+                PrePicture();                
                 _frameCanvasManager.Show();
             }
             await _fadeInOutController.FadeIn(0.3f);
@@ -72,10 +82,14 @@ namespace WishYouWereHere3D.EP2
 
             await _fadeInOutController.FadeOut(0.2f);
             {
-                _frameCanvasManager.Hide();
+                _frameCanvasManager.Hide();                
+                _cameraHelper.ZoomOut(0f).Forget();
                 PostPicture();
             }
             await _fadeInOutController.FadeIn(0.3f);
+
+            DialogueManager.Instance.ShowAlert("사진첩에 저장되었습니다.");
+            
 
             _fadeInOutController.SetColor(new Color(0, 0, 0, 0));
         }
