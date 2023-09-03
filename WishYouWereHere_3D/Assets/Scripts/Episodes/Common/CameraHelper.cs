@@ -17,6 +17,13 @@ namespace WishYouWereHere3D.EPCommon
         GameObject _cameraFrame;
 
         float _originFOV;
+        bool _manualZoomInOut = false;
+
+        [SerializeField]
+        float _manualZoomSpeed = 2f;
+
+        [SerializeField]
+        float _limitFOV = 40;
 
         public float FOV
         {
@@ -56,16 +63,28 @@ namespace WishYouWereHere3D.EPCommon
 
         public UniTask ZoomIn(float duration)
         {
-            return DOTween.To(() => FOV, x => FOV = x, _originFOV - 20, duration)
+            return DOTween.To(() => FOV, x => FOV = x, _originFOV - _limitFOV, duration)
                 .AsyncWaitForCompletion()
                 .AsUniTask();
         }
 
         public UniTask ZoomOut(float duration)
         {
+            return DOTween.To(() => FOV, x => FOV = x, _originFOV + _limitFOV, duration)
+                .AsyncWaitForCompletion()
+                .AsUniTask();
+        }
+
+        public UniTask ZoomOrigin(float duration)
+        {
             return DOTween.To(() => FOV, x => FOV = x, _originFOV, duration)
                 .AsyncWaitForCompletion()
                 .AsUniTask();
+        }
+
+        public void ManualZoomIn(bool enable)
+        {
+            _manualZoomInOut = enable;
         }
 
         public void ShowCameraFrame()
@@ -78,6 +97,23 @@ namespace WishYouWereHere3D.EPCommon
         {
             if(_cameraFrame != null)
                 _cameraFrame.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if(_manualZoomInOut)
+            {
+                if(Input.mouseScrollDelta.y > 0)
+                {
+                    FOV -= _manualZoomSpeed;
+                }
+                else if(Input.mouseScrollDelta.y < 0)
+                {
+                    FOV += _manualZoomSpeed;
+                }
+
+                FOV = Mathf.Clamp(FOV, _originFOV - _limitFOV, _originFOV + _limitFOV);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using WishYouWereHere3D.Common;
+using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.TriggerEvents;
 using WishYouWereHere3D.UI;
 
@@ -13,12 +14,14 @@ namespace WishYouWereHere3D.EP3
 
         FadeInOutController _fadeInOutController;
         FrameCanvasManager _frameCanvasManager;
+        CameraHelper _cameraHelper;
 
         protected override void Awake()
         {
             base.Awake();
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
             _frameCanvasManager = FindObjectOfType<FrameCanvasManager>();
+            _cameraHelper = FindObjectOfType<CameraHelper>();
         }
 
         public string Name
@@ -73,6 +76,7 @@ namespace WishYouWereHere3D.EP3
             await _fadeInOutController.FadeOut(0.2f);
             {
                 PrePicture();
+                _cameraHelper.HideCameraFrame();
                 _frameCanvasManager.Hide();
             }
             await _fadeInOutController.FadeIn(0.3f);
@@ -81,6 +85,7 @@ namespace WishYouWereHere3D.EP3
 
             await _fadeInOutController.FadeOut(0.2f);
             {
+                _cameraHelper.ZoomOrigin(0f).Forget();
                 PostPicture();
             }
             await _fadeInOutController.FadeIn(0.3f);

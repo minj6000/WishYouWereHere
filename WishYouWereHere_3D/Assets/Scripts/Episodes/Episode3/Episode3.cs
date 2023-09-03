@@ -5,6 +5,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using WishYouWereHere3D.Common;
+using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.EP3
@@ -13,6 +14,7 @@ namespace WishYouWereHere3D.EP3
     {
         [SerializeField] PictureSubject[] _pictureSubjects;
         [SerializeField] FadeInOutController _fadeInOutController;
+        [SerializeField] CameraHelper _cameraHelper;
 
         public enum States
         {
@@ -68,15 +70,18 @@ namespace WishYouWereHere3D.EP3
         private void State_TakePicture()
         {
             InputHelper.EnableMouseControl(false);            
-            _selectedPictureSubject.ReadyToTakePicture();
+            //_selectedPictureSubject.ReadyToTakePicture();
+            _cameraHelper.ShowCameraFrame();
+            _cameraHelper.ManualZoomIn(true);
 
-            InteractionGuide.Instance.Show(InteractionGuide.Icons.Space, "사진 찍기");
+            InteractionGuide.Instance.Show(InteractionGuide.Icons.Mouse_L, "사진 찍기");
 
             _updateDisposable = gameObject.UpdateAsObservable()
                 .Subscribe(async _ =>
                 {
-                    if (Input.GetKeyDown(KeyCode.Space))
+                    if (Input.GetMouseButtonDown(0))
                     {
+                        _cameraHelper.ManualZoomIn(false);
                         InteractionGuide.Instance.Hide();
                         _updateDisposable.Dispose();
                         
@@ -91,9 +96,7 @@ namespace WishYouWereHere3D.EP3
                             State = States.Talk;
                         }
                     }                        
-                });
-
-            
+                });            
         }
 
         private void State_Talk()
@@ -149,6 +152,7 @@ namespace WishYouWereHere3D.EP3
         {
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
             _pictureSubjects = FindObjectsOfType<PictureSubject>();
+            _cameraHelper = FindObjectOfType<CameraHelper>();
         }
     }
 }

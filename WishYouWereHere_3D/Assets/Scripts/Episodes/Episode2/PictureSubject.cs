@@ -83,7 +83,7 @@ namespace WishYouWereHere3D.EP2
             await _fadeInOutController.FadeOut(0.2f);
             {
                 _frameCanvasManager.Hide();                
-                _cameraHelper.ZoomOut(0f).Forget();
+                _cameraHelper.ZoomOrigin(0f).Forget();
                 PostPicture();
             }
             await _fadeInOutController.FadeIn(0.3f);
