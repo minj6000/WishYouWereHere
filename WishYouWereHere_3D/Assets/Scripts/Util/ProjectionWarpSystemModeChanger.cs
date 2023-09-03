@@ -19,6 +19,11 @@ namespace WishYouWereHere3D.Util
 		void ChangeToNormalMode()
 		{
             _mainCamera.enabled = true;
+			AudioListener audioListener = _mainCamera.GetComponent<AudioListener>();
+			if(audioListener != null)
+			{
+                audioListener.enabled = true;
+            }	
 			_projectionWarpSystem.gameObject.SetActive(false);
 			if(_mainCanvas != null)
 			{
@@ -33,7 +38,12 @@ namespace WishYouWereHere3D.Util
 		void ChangeToProjectionWarpSystem()
 		{
 			_mainCamera.enabled = false;
-			_projectionWarpSystem.gameObject.SetActive(true);
+            AudioListener audioListener = _mainCamera.GetComponent<AudioListener>();
+            if (audioListener != null)
+            {
+                audioListener.enabled = false;
+            }
+            _projectionWarpSystem.gameObject.SetActive(true);
 			if(_mainCanvas != null)
 			{
 				_mainCanvas.targetDisplay = _canvasDisplayIndex;

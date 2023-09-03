@@ -14,15 +14,11 @@ namespace WishYouWereHere3D.EP3
         FadeInOutController _fadeInOutController;
         FrameCanvasManager _frameCanvasManager;
 
-        Animator[] _animators;
-
         protected override void Awake()
         {
             base.Awake();
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
             _frameCanvasManager = FindObjectOfType<FrameCanvasManager>();
-
-            _animators = FindObjectsOfType<Animator>();
         }
 
         public string Name
@@ -43,9 +39,10 @@ namespace WishYouWereHere3D.EP3
 
         public void PrePicture()
         {
-            if (_animators != null)
+            var animators = FindObjectsOfType<Animator>();
+            if (animators != null)
             {
-                foreach (var animator in _animators)
+                foreach (var animator in animators)
                 {
                     animator.enabled = false;
                 }                
@@ -54,9 +51,10 @@ namespace WishYouWereHere3D.EP3
 
         public void PostPicture()
         {
-            if (_animators != null)
+            var animators = FindObjectsOfType<Animator>();
+            if (animators != null)
             {
-                foreach (var animator in _animators)
+                foreach (var animator in animators)
                 {
                     animator.enabled = true;
                 }
