@@ -1,8 +1,11 @@
-﻿using PixelCrushers.DialogueSystem;
+﻿using extOSC;
+using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WishYouWereHere3D.Common;
+using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.UI;
 
 namespace WishYouWereHere3D.EP2
@@ -50,8 +53,10 @@ namespace WishYouWereHere3D.EP2
         }
 
         private async void State_Ending()
-        {
+        {            
             await _fadeInOutController.FadeOut(2f);
+            OSCController.Instance?.Send(Define.OSC_PROJECTORON_ADDRESS, OSCValue.Bool(false));
+            SceneManager.LoadScene(Define.SCENE_LISTEN);
         }
 
         private void State_Movable()
@@ -98,6 +103,10 @@ namespace WishYouWereHere3D.EP2
             InputHelper.EnableMouseControl(true);
             DialogueManager.Instance.StartConversationWithEndedAction("EP2_광장", _ =>
             {
+                var selectedItem = DialogueLua.GetVariable("EP2_선택아이템");
+
+                OSCController.Instance?.Send(Define.OSC_EP2_RANDOMGIFT, OSCValue.Int(selectedItem.AsInt));
+
                 InputHelper.EnableMouseControl(false);
 
                 BicycleController.Instance.Movable(true);
@@ -125,7 +134,26 @@ namespace WishYouWereHere3D.EP2
                 
                 if(result.AsBool)
                 {                    
-                    await pictureSubject.TakePictureEffect(); 
+                    await pictureSubject.TakePictureEffect();
+                }
+
+                switch (pictureSubject.Name)
+                {
+                    case "고양이":
+                        OSCController.Instance?.Send(Define.OSC_EP2_CAT, OSCValue.Bool(result.AsBool));
+                        break;
+                    case "버스":
+                        OSCController.Instance?.Send(Define.OSC_EP2_BUS, OSCValue.Bool(result.AsBool));
+                        break;
+                    case "아저씨":
+                        OSCController.Instance?.Send(Define.OSC_EP2_PAUL, OSCValue.Bool(result.AsBool));
+                        break;
+                    case "카페":
+                        OSCController.Instance?.Send(Define.OSC_EP2_CAFE, OSCValue.Bool(result.AsBool));
+                        break;
+                    case "첸":
+                        OSCController.Instance?.Send(Define.OSC_EP2_CHEN, OSCValue.Bool(result.AsBool));
+                        break;
                 }
 
                 await BicycleController.Instance.LookForward();

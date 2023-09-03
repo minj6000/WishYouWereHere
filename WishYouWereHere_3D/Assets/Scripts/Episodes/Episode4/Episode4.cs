@@ -1,8 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
+using extOSC;
 using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.UI;
@@ -67,7 +69,10 @@ namespace WishYouWereHere3D.EP4
                 }).Forget();
             }
             await UniTask.Delay(10000);
+            
             await _fadeInOutController.FadeOut(2f);
+            OSCController.Instance?.Send(Define.OSC_PROJECTORON_ADDRESS, OSCValue.Bool(false));
+            SceneManager.LoadScene(Define.SCENE_LISTEN);
         }
 
         private void State_Sitable()

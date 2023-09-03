@@ -1,9 +1,11 @@
-﻿using PixelCrushers.DialogueSystem;
+﻿using extOSC;
+using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.TriggerEvents;
@@ -58,9 +60,10 @@ namespace WishYouWereHere3D.EP1
         }
 
         async void EndOfContent()
-        {
-            Debug.Log("종료되었습니다.");
+        {            
             await _fadeInOutController.FadeOut(2f);
+            OSCController.Instance?.Send(Define.OSC_PROJECTORON_ADDRESS, OSCValue.Bool(false));
+            SceneManager.LoadScene(Define.SCENE_LISTEN);
         }
 
         private void State_Ending()
@@ -75,8 +78,6 @@ namespace WishYouWereHere3D.EP1
 
             DialogueManager.Instance.StartConversationWithEndedAction("EP1_Ending", _ =>
             {
-                Debug.Log($"OnConversationEnded {_.name}");
-
                 //완전 종료
                 EndOfContent();
             });
@@ -125,7 +126,9 @@ namespace WishYouWereHere3D.EP1
 
             DialogueManager.Instance.StartConversationWithEndedAction("EP1", async _ =>
             {
-                Debug.Log($"OnConversationEnded {_.name}");
+                var complete = DialogueLua.GetVariable("EP1_대화완료").AsBool;
+                OSCController.Instance?.Send(Define.OSC_EP1_LETTER, OSCValue.Bool(complete));
+
                 await PlayerController.Instance.StandUp();
                 State = States.MoveItem;
             });

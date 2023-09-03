@@ -1,9 +1,11 @@
-﻿using PixelCrushers.DialogueSystem;
+﻿using extOSC;
+using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using System;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.EPCommon;
 using WishYouWereHere3D.UI;
@@ -59,7 +61,25 @@ namespace WishYouWereHere3D.EP3
             {
                 DialogueManager.Instance.StartConversationWithEndedAction("EP_3", async _ =>
                 {
+                    var item = DialogueLua.GetVariable("EP3_선택아이템");
+                    switch (item.AsString)
+                    {
+                        case "드레스":
+                            OSCController.Instance?.Send(Define.OSC_EP3_GIFT, OSCValue.Int(0));
+                            break;
+                        case "장갑":
+                            OSCController.Instance?.Send(Define.OSC_EP3_GIFT, OSCValue.Int(1));
+                            break;
+                        case "도덕경":
+                            OSCController.Instance?.Send(Define.OSC_EP3_GIFT, OSCValue.Int(2));
+                            break;
+                        default:
+                            break;
+                    }
+
                     await _fadeInOutController.FadeOut(2f);
+                    OSCController.Instance?.Send(Define.OSC_PROJECTORON_ADDRESS, OSCValue.Bool(false));
+                    SceneManager.LoadScene(Define.SCENE_LISTEN);
                 });
             }
         }
