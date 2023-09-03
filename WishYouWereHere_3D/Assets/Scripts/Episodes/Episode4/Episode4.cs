@@ -1,4 +1,5 @@
-﻿using PixelCrushers.DialogueSystem;
+﻿using Cysharp.Threading.Tasks;
+using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace WishYouWereHere3D.EP4
         [SerializeField] private EventArea[] _eventAreas;
         [SerializeField] private Sofa _sofa;
         [SerializeField] FadeInOutController _fadeInOutController;
+
+        [SerializeField] private DissolveObject[] _dissolveObjects;
 
         [SerializeField] float _dissolveDuration = 5f;
 
@@ -55,8 +58,15 @@ namespace WishYouWereHere3D.EP4
             PlayerController.Instance.Rotatable(true);
             // TODO: 디졸브 효과?
 
-
-
+            foreach (var dissolveObject in _dissolveObjects)
+            {
+                UniTask.Create(async () =>
+                {
+                    await UniTask.Delay(Random.Range(1000, 12000));
+                    await dissolveObject.Hide(_dissolveDuration);
+                }).Forget();
+            }
+            await UniTask.Delay(10000);
             await _fadeInOutController.FadeOut(2f);
         }
 
@@ -157,6 +167,7 @@ namespace WishYouWereHere3D.EP4
             _eventAreas = FindObjectsOfType<EventArea>();
             _sofa = FindObjectOfType<Sofa>();
             _fadeInOutController = FindObjectOfType<FadeInOutController>();
+            _dissolveObjects = FindObjectsOfType<DissolveObject>();
         }
     } 
 }
