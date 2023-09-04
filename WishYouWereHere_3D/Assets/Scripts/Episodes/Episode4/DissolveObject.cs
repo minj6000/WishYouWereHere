@@ -42,7 +42,6 @@ namespace WishYouWereHere3D.EP4
             }
 
             await UniTask.Delay((int)(1000 * duration));
-            gameObject.SetActive(false);
         }
 
         [Button]
