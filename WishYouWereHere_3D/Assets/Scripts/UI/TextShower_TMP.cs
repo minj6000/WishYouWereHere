@@ -86,11 +86,7 @@ namespace WishYouWereHere3D.UI
         {
             if (_textMeshPro != null)
             {
-                if(_textMeshPro.text == text)
-                {
-                    return;
-                }
-                else
+                if(_textMeshPro.text != text)
                 {
                     Debug.Log($"{name} Change and ShowText '{_textMeshPro.text}' => '{text}'");
                     HideText();
