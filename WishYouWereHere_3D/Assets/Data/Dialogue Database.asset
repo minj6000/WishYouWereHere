@@ -191,12 +191,12 @@ MonoBehaviour:
       type: 2
       typeString: CustomFieldType_Boolean
     - title: Success Description
-      value: "\uD551\uD06C \uD3F4\uB85C\uC774\uB4DC\uC758 Wish you were here\uC774
-        \uD758\uB7EC\uB098\uC624\uACE0 \uC788\uB2E4."
+      value: "\uC911\uACE0 \uB9C8\uCF13\uC5D0 \uAC00\uC11C \uB808\uCF54\uB4DC\uD310\uC744
+        \uC0AC\uC624\uB294 \uAC74 \uB0B4 \uCDE8\uBBF8\uC600\uB2E4."
       type: 0
       typeString: CustomFieldType_Text
     - title: Success Description2
-      value: "\uD328\uD2F0 \uC2A4\uBBF8\uC2A4\uC758 Gloria\uAC00 \uD758\uB7EC\uB098\uC624\uACE0
+      value: "\uAE30\uAC00 \uC88B\uC544\uD558\uB294 \uC74C\uC545\uC774 \uD758\uB7EC\uB098\uC624\uACE0
         \uC788\uB2E4."
       type: 0
       typeString: CustomFieldType_Text
@@ -211,8 +211,9 @@ MonoBehaviour:
       type: 3
       typeString: CustomFieldType_Files
     - title: Description
-      value: "\uCE7C\uB9B4 \uC9C0\uBE0C\uB780, \uB098\uB294 \uC5B4\uB5BB\uAC8C \uBBF8\uCE5C
-        \uC0AC\uB78C\uC774 \uB418\uC5C8\uB098."
+      value: "\uCE7C\uB9B4 \uC9C0\uBE0C\uB780 - \uB098\uB294 \uC5B4\uB5BB\uAC8C \uBBF8\uCE5C
+        \uC0AC\uB78C\uC774 \uB418\uC5C8\uB098.\n\uB0B4\uAC00 \uAC00\uC7A5 \uC88B\uC544\uD558\uB294
+        \uCC45 \uC911 \uD558\uB098."
       type: 0
       typeString: CustomFieldType_Text
     - title: Is Item
@@ -301,8 +302,9 @@ MonoBehaviour:
       type: 3
       typeString: CustomFieldType_Files
     - title: Description
-      value: "\uAC08\uC0C9\uC758 \uC6D0\uD53C\uC2A4\uB2E4\n\uC0AC\uC2E4 \uC6D0\uD53C\uC2A4\uBCF4\uB2E4\uB294
-        \uB4DC\uB808\uC2A4\uB77C\uACE0 \uD558\uB294 \uAC8C \uB9DE\uC744 \uAC83 \uAC19\uB2E4"
+      value: "\uCCB8\uC758 \uC6D0\uD53C\uC2A4.\n\uADF8\uB7EC\uB098 \uD55C\uBC88\uB3C4
+        \uC785\uC740 \uAC78 \uBCF4\uC9C0 \uBABB\uD588\uB2E4.\n\uAD00\uB9AC\uAC00
+        \uC798 \uB418\uC5B4\uC788\uB2E4."
       type: 0
       typeString: CustomFieldType_Text
     - title: Is Item
@@ -320,7 +322,10 @@ MonoBehaviour:
       type: 3
       typeString: CustomFieldType_Files
     - title: Description
-      value: "\uB178\uC790\uC758 \uB3C4\uB355\uACBD. \uB0A1\uC740 \uCC45\uC774\uB2E4."
+      value: "\uB178\uC790\uC758 \uB3C4\uB355\uACBD. \n\uB0A1\uC740 \uCC45\uC774\uB2E4.\n\uC548\uC5D0\uB294
+        \uB204\uAD70\uAC00 \uBA54\uBAA8\uB97C \uD574\uB193\uC740 \uD754\uC801\uC774
+        \uC788\uB2E4.\n\uC774\uC804 \uC8FC\uC778\uC774 \uB0A8\uACA8\uB193\uC740 \uAC83
+        \uAC19\uB2E4."
       type: 0
       typeString: CustomFieldType_Text
     - title: Is Item
@@ -338,10 +343,10 @@ MonoBehaviour:
       type: 3
       typeString: CustomFieldType_Files
     - title: Description
-      value: "\uB0A1\uC740 \uC6B8 \uC7A5\uAC11. \uC190\uAC00\uB77D \uBD80\uBD84\uC758
-        \uCC9C\uB9CC \uB204\uAC00 \uC798\uB77C\uAC04 \uAC83\uCC98\uB7FC \uB6AB\uB824
-        \uC788\uB2E4.\n\uBCF4\uC628\uC131\uC774 \uC758\uC2EC\uC2A4\uB7FD\uC9C0\uB9CC,
-        \uADF8\uB798\uB3C4 \uB530\uB4EF\uD574 \uBCF4\uC778\uB2E4."
+      value: "\uB0A1\uC740 \uC6B8 \uC7A5\uAC11. \n\uC190\uAC00\uB77D \uBD80\uBD84\uC758
+        \uCC9C\uB9CC \uC870\uAE08 \uD5E4\uC838\uC788\uB2E4.\n\uBCF4\uC628\uC131\uC774
+        \uC758\uC2EC\uC2A4\uB7FD\uC9C0\uB9CC, \uADF8\uB798\uB3C4 \uB530\uB4EF\uD574
+        \uBCF4\uC778\uB2E4."
       type: 0
       typeString: CustomFieldType_Text
     - title: Is Item
