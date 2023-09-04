@@ -303,9 +303,8 @@ MonoBehaviour:
       type: 3
       typeString: CustomFieldType_Files
     - title: Description
-      value: "\uCCB8\uC758 \uC6D0\uD53C\uC2A4.\n\uADF8\uB7EC\uB098 \uD55C\uBC88\uB3C4
-        \uC785\uC740 \uAC78 \uBCF4\uC9C0 \uBABB\uD588\uB2E4.\n\uAD00\uB9AC\uAC00
-        \uC798 \uB418\uC5B4\uC788\uB2E4."
+      value: "\uCCB8\uC758 \uC6D0\uD53C\uC2A4.\n\uD55C\uBC88\uB3C4 \uC785\uC740 \uAC78
+        \uBCF4\uC9C0\uB294 \uBABB\uD588\uB2E4.\n\uAD00\uB9AC\uAC00 \uC798 \uB418\uC5B4\uC788\uB2E4."
       type: 0
       typeString: CustomFieldType_Text
     - title: Is Item
