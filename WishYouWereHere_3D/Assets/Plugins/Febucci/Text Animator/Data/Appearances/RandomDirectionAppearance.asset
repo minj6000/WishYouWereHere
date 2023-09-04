@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagID: rdir
   baseDuration: 0.5
-  baseAmount: 10
+  baseAmount: 1.5
