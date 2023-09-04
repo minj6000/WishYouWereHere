@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using DarkTonic.MasterAudio;
 using DG.Tweening;
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
@@ -12,7 +13,10 @@ namespace WishYouWereHere3D.EP2
     public class PictureSubject : CenterCursorTriggerEvent
     {
 		[SerializeField] string _name;
-        [SerializeField] Transform _pictureTarget;        
+        [SerializeField] Transform _pictureTarget;
+
+        [SerializeField] string _zoomInSoundName;
+        [SerializeField] string _takePictureSoundName;
 
         FadeInOutController _fadeInOutController;
         FrameCanvasManager _frameCanvasManager;
@@ -65,10 +69,18 @@ namespace WishYouWereHere3D.EP2
         public async UniTask TakePictureEffect()
         {
             _cameraHelper.ShowCameraFrame();
+            if(!string.IsNullOrEmpty(_zoomInSoundName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_zoomInSoundName, transform);
+            }
             await _cameraHelper.ZoomIn(1f);
 
             await UniTask.Delay(500);
             _fadeInOutController.SetColor(new Color(1, 1, 1, 0));
+            if (!string.IsNullOrEmpty(_takePictureSoundName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_takePictureSoundName, transform);
+            }
             await _fadeInOutController.FadeOut(0.2f);
             {
                 _cameraHelper.HideCameraFrame();

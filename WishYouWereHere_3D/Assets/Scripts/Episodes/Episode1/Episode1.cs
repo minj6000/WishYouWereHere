@@ -1,4 +1,5 @@
-﻿using extOSC;
+﻿using DarkTonic.MasterAudio;
+using extOSC;
 using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using System;
@@ -129,6 +130,7 @@ namespace WishYouWereHere3D.EP1
                 var complete = DialogueLua.GetVariable("EP1_대화완료").AsBool;
                 OSCController.Instance?.Send(Define.OSC_EP1_LETTER, OSCValue.Bool(complete));
 
+                MasterAudio.PlaySound("Ep1_Sub_Ask");
                 await PlayerController.Instance.StandUp();
                 State = States.MoveItem;
             });

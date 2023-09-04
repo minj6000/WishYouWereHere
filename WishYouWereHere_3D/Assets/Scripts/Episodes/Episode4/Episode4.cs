@@ -105,11 +105,12 @@ namespace WishYouWereHere3D.EP4
                     e.Enabled = false;
                     await PlayerController.Instance.LookAt(e.LookTransform);
                     SetMouseControl();
-                    DialogueManager.Instance.StartConversationWithEndedAction("EP_4", _ =>
+                    DialogueManager.Instance.StartConversationWithEndedAction("EP_4", async _ =>
                     {
                         SetKeyboardControl();
                         if (DialogueLua.GetVariable("EP4_완료공간").AsInt == 4)
                         {
+                            await UniTask.Delay(500);
                             SetMouseControl();
                             DialogueManager.Instance.StartConversationWithEndedAction("EP_4", _ =>
                             {

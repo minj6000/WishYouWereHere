@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using DarkTonic.MasterAudio;
 using UnityEngine;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.EPCommon;
@@ -11,6 +12,7 @@ namespace WishYouWereHere3D.EP3
     {
 		[SerializeField] string _name;
         [SerializeField] Transform _pictureTarget;
+        [SerializeField] string _takePictureSoundName;
 
         FadeInOutController _fadeInOutController;
         FrameCanvasManager _frameCanvasManager;
@@ -73,6 +75,11 @@ namespace WishYouWereHere3D.EP3
         {
             await UniTask.Delay(500);
             _fadeInOutController.SetColor(new Color(1, 1, 1, 0));
+
+            if(!string.IsNullOrEmpty(_takePictureSoundName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_takePictureSoundName, transform);
+            }
             await _fadeInOutController.FadeOut(0.2f);
             {
                 PrePicture();

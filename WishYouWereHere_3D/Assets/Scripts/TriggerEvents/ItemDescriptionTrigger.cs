@@ -111,7 +111,12 @@ namespace WishYouWereHere3D.TriggerEvents
             
             InteractionGuide.Instance.Hide();
             clicked = true;
-            _textShower.ShowText(_textClickedPath);
+
+            if(!string.IsNullOrEmpty(_textClickedPath))
+            {
+                _textShower.ShowText(_textClickedPath);
+            }
+
         }       
 
         public void ClearValues()
