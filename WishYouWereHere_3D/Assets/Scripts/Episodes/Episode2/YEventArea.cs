@@ -41,7 +41,9 @@ namespace WishYouWereHere3D.EP2
 
                 BicycleController.Instance.Movable(true);
                 BicycleController.Instance.Rotatable(true);
+                this.gameObject.SetActive(false);
             });
+
         }
     }
 }
