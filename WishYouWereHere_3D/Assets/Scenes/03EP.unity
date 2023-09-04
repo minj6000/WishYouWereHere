@@ -3007,6 +3007,9 @@ MonoBehaviour:
   _textEnterPath: "items\\EP3_\uC7A5\uAC11"
   _textClickedPath: 
   _textShower: {fileID: 1309303446}
+  _cursorEnterSoundName: 
+  _cursorDownSoundName: 
+  _textSoundName: 
   _useCustomHideToDistance: 1
   _hideToDistance: 0
 --- !u!114 &75474215
@@ -21097,7 +21100,7 @@ PrefabInstance:
     - target: {fileID: 11426072, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
       propertyPath: displaySettings.dialogueUI
       value: 
-      objectReference: {fileID: 3011539301744671738, guid: a1902290b01604d4b844cf1081f0d1a5,
+      objectReference: {fileID: 3011539301744671738, guid: 71653507be6c95f479914b590b64e483,
         type: 3}
     - target: {fileID: 11426072, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
       propertyPath: displaySettings.defaultCanvas
@@ -29280,6 +29283,9 @@ MonoBehaviour:
   _textEnterPath: "items\\EP3_\uB4DC\uB808\uC2A4"
   _textClickedPath: 
   _textShower: {fileID: 1689674397}
+  _cursorEnterSoundName: 
+  _cursorDownSoundName: 
+  _textSoundName: 
   _useCustomHideToDistance: 1
   _hideToDistance: 0
 --- !u!114 &638563358
@@ -34470,6 +34476,7 @@ MonoBehaviour:
   _firstPersonMovement: {fileID: 748659459}
   _firstPersonLook: {fileID: 748659461}
   _rigidbody: {fileID: 748659466}
+  _sitSoundName: 
 --- !u!1 &748784967
 GameObject:
   m_ObjectHideFlags: 0
@@ -84951,6 +84958,7 @@ MonoBehaviour:
   _playerCamera: {fileID: 748659456}
   _projectionWarpSystem: {fileID: 509748562}
   _cameraFrame: {fileID: 310393}
+  _manualZoomSpeed: 2
   _limitFOV: 40
 --- !u!1 &1768455504
 GameObject:
@@ -89402,6 +89410,9 @@ MonoBehaviour:
   _textEnterPath: "items\\EP3_\uB3C4\uB355\uACBD"
   _textClickedPath: 
   _textShower: {fileID: 2037329258}
+  _cursorEnterSoundName: 
+  _cursorDownSoundName: 
+  _textSoundName: 
   _useCustomHideToDistance: 1
   _hideToDistance: 0
 --- !u!114 &1850558453

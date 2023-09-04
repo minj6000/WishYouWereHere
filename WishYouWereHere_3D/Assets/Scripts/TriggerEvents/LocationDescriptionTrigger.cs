@@ -1,3 +1,4 @@
+using DarkTonic.MasterAudio;
 using System;
 using UniRx;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace WishYouWereHere3D.TriggerEvents
     {
         [SerializeField] string _textPath;
         [SerializeField] TextShower_TMP _textShower;
+        [SerializeField] string _soundOnExcuteName;
 
         bool _showOnce;
         float _showDuration;
@@ -61,6 +63,10 @@ namespace WishYouWereHere3D.TriggerEvents
                 return;
             }
 
+            if(!string.IsNullOrEmpty(_soundOnExcuteName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_soundOnExcuteName, transform);
+            }
             _textShower.ShowText(_textPath);
             _triggered = true;
         }
@@ -69,6 +75,11 @@ namespace WishYouWereHere3D.TriggerEvents
         {
             if(_textShower.IsText(_textPath))
             {
+                if (!string.IsNullOrEmpty(_soundOnExcuteName))
+                {
+                    MasterAudio.StopAllSoundsOfTransform(transform);
+                }
+
                 _textShower.HideText();
             }
 

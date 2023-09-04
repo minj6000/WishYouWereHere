@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DarkTonic.MasterAudio;
 using DG.Tweening;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace WishYouWereHere3D.Common
         }
 
         [SerializeField] protected Rigidbody _rigidbody;
+        [SerializeField] protected string _sitSoundName;
 
         Vector3 _lookOrgPosition;
 
@@ -47,6 +49,10 @@ namespace WishYouWereHere3D.Common
             //시선을 앞으로
             await LookForward();
 
+            if(!string.IsNullOrEmpty(_sitSoundName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_sitSoundName, sitTransform);
+            }
             //카메라를 조금 밑으로 이동하여 앉는느낌을 줌
             await _firstPersonLook.transform.DOLocalMoveY(_lookOrgPosition.y - 0.5f, 1f).SetEase(Ease.InQuart).AsyncWaitForCompletion();
         }

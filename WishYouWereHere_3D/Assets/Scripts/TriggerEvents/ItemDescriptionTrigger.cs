@@ -2,6 +2,7 @@
 using UnityEngine;
 using WishYouWereHere3D.Common;
 using WishYouWereHere3D.UI;
+using DarkTonic.MasterAudio;
 
 namespace WishYouWereHere3D.TriggerEvents
 {
@@ -11,10 +12,15 @@ namespace WishYouWereHere3D.TriggerEvents
         [SerializeField] protected string _textClickedPath;
         [SerializeField] protected TextShower_TMP _textShower;
 
+        [SerializeField] protected string _cursorEnterSoundName;
+        [SerializeField] protected string _cursorDownSoundName;
+        [SerializeField] protected string _textSoundName;
+
         [SerializeField] protected bool _useCustomHideToDistance = false;
         
         [ShowIf("_useCustomHideToDistance")]
         [SerializeField] protected float _hideToDistance;
+
 
         protected bool clicked;
         public bool Clicked => clicked;
@@ -26,6 +32,16 @@ namespace WishYouWereHere3D.TriggerEvents
             {
                 _hideToDistance = Configuration.Instance.ItemDescription.HideToDistance;
             }
+        }
+
+        private void OnEnable()
+        {
+            _textShower.OnTextAppearing.AddListener(PlayTextSound);
+        }
+
+        private void OnDisable()
+        {
+            _textShower.OnTextAppearing.RemoveListener(PlayTextSound);
         }
 
         protected virtual void Update()
@@ -40,11 +56,25 @@ namespace WishYouWereHere3D.TriggerEvents
             }
         }
 
+        protected virtual void PlayTextSound()
+        {
+            if(!string.IsNullOrEmpty(_textSoundName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_textSoundName, transform);
+            }
+        }
+
         protected override void OnCenterCursorEnter()
         {
             base.OnCenterCursorEnter();
 
-            if(clicked)
+            if(!string.IsNullOrEmpty(_cursorEnterSoundName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_cursorEnterSoundName, transform);
+            }
+
+
+            if (clicked)
             {
                 return;
             }
@@ -69,11 +99,16 @@ namespace WishYouWereHere3D.TriggerEvents
         {
             base.OnCenterCursorDown();
 
+            if(!string.IsNullOrEmpty(_cursorDownSoundName))
+            {
+                MasterAudio.PlaySound3DAtTransform(_cursorDownSoundName, transform);
+            }
+
             if (clicked)
             {
                 return;
             }
-
+            
             InteractionGuide.Instance.Hide();
             clicked = true;
             _textShower.ShowText(_textClickedPath);

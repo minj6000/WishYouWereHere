@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using DarkTonic.MasterAudio;
+using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine;
 using WishYouWereHere3D.Common;
@@ -36,6 +37,9 @@ namespace WishYouWereHere3D.EP1
 
         PlayerWithMovableItemController _playerController;
 
+        [SerializeField] string _grabSoundName;
+        [SerializeField] string _putSoundName;
+
         protected override void Awake()
         {
             base.Awake();
@@ -70,6 +74,11 @@ namespace WishYouWereHere3D.EP1
         {
             if (_playerController.CanHoldItem())
             {
+                if(!string.IsNullOrEmpty(_grabSoundName))
+                {
+                    MasterAudio.PlaySound3DAtTransform(_grabSoundName, transform);
+                }
+
                 _playerController.HoldItem(this);
                 _state = States.Holding;
             }
@@ -115,12 +124,16 @@ namespace WishYouWereHere3D.EP1
                 _state = States.Released;
                 _outline.enabled = false;
 
+                if(!string.IsNullOrEmpty(_putSoundName))
+                {
+                    MasterAudio.PlaySound3DAtTransform(_putSoundName, transform);
+                }
+
                 _playerController.ReleaseItem();                
                 if(_reHoldable)
                 {
                     _state = States.Holdable;
                 }
-
             }
         }
 
