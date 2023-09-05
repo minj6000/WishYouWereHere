@@ -93800,9 +93800,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pictureSubjects:
   - {fileID: 765351139}
-  - {fileID: 6760867449281705861}
-  - {fileID: 6760867449281705860}
   - {fileID: 1850558453}
+  - {fileID: 6760867449281705860}
   _fadeInOutController: {fileID: 1105481179}
   _cameraHelper: {fileID: 1766099157}
 --- !u!1 &1919925673
@@ -110708,7 +110707,6 @@ GameObject:
   - component: {fileID: 6760867449281705863}
   - component: {fileID: 6760867449281705862}
   - component: {fileID: 6760867449281705860}
-  - component: {fileID: 6760867449281705861}
   m_Layer: 0
   m_Name: SlapBattlesGloveRig
   m_TagString: Untagged
@@ -110782,33 +110780,6 @@ Transform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &6760867449281705860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6239945861382516025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40011fd00287a204dab9246f496d5cca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDown:
-    m_PersistentCalls:
-      m_Calls: []
-  OnUp:
-    m_PersistentCalls:
-      m_Calls: []
-  _name: "\uC7A5\uAC11"
-  _pictureTarget: {fileID: 0}
-  _takePictureSoundName: Ep2_Camera
---- !u!114 &6760867449281705861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
